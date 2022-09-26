@@ -199,3 +199,6 @@ packages/**/yalc.lock
 __tests__/coverage
 .yalc/
 yalc.lock
+
+# turborepo
+.turbo/

@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.json",
+  "include": ["src"],
+  "exclude": ["node_modules", "**/*.spec.ts"],
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": "./",
+    "outDir": "./dist",
+    "rootDir": "src",
+  },
+  "display": "@mini_faas_worker/cli"
+}

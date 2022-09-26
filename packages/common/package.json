@@ -2,10 +2,18 @@
   "name": "@mini_faas_worker/common",
   "version": "0.0.1",
   "description": "common lib for mini_faas_worker",
-  "main": "index.js",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsup src/index.ts --format=esm --dts --watch",
+    "build": "tsup src/index.ts --format=esm --dts",
+    "lint": "eslint --cache --ignore-pattern dist .",
+    "typecheck": "tsc --noEmit"
   },
   "author": "lilong7676@outlook.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "mrmime": "^1.0.1"
+  }
 }

@@ -1,12 +1,10 @@
 {
   "exclude": ["**/dist", "**/node_modules", "**/src/__tests__"],
   "compilerOptions": {
-    /* Visit https://aka.ms/tsconfig.json to read more about this file */
-    /* Language and Environment */
-    "target": "ESNext" /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */,
-
+    "target": "ES2020",
+    "lib": ["ES2022"],
     /* Modules */
-    "module": "commonjs" /* Specify what module code is generated. */,
+    "module": "ESNext" /* Specify what module code is generated. */,
     // "rootDir": "./",                                  /* Specify the root folder within your source files. */
     "moduleResolution": "node" /* Specify how TypeScript looks up a file from a given module specifier. */,
 
@@ -19,6 +17,8 @@
     "esModuleInterop": true /* Emit additional JavaScript to ease support for importing CommonJS modules. This enables `allowSyntheticDefaultImports` for type compatibility. */,
     // "preserveSymlinks": true,                         /* Disable resolving symlinks to their realpath. This correlates to the same flag in node. */
     "forceConsistentCasingInFileNames": true /* Ensure that casing is correct in imports. */,
+
+    "resolveJsonModule": true,
 
     /* Type Checking */
     "strict": true /* Enable all strict type-checking options. */,
@@ -41,6 +41,8 @@
     "noImplicitAny": false,
     "strictBindCallApply": false,
     "noFallthroughCasesInSwitch": false,
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false,
+
+    "tsBuildInfoFile": "tsconfig.tsbuildinfo"
   }
 }

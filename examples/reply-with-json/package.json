@@ -1,0 +1,8 @@
+{
+  "name": "@mini_faas_worker/example-reply-with-json",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "@mini_faas_worker/types": "workspace:^"
+  }
+}

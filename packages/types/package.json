@@ -1,0 +1,13 @@
+{
+  "name": "@mini_faas_worker/types",
+  "version": "0.0.1",
+  "description": "types for faas worker",
+  "type": "module",
+  "types": "types.d.ts",
+  "files": [
+    "types.d.ts"
+  ],
+  "scripts": {},
+  "author": "lilong7676@outlook.com",
+  "license": "MIT"
+}

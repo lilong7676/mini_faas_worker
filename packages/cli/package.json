@@ -2,9 +2,18 @@
   "name": "@mini_faas_worker/cli",
   "version": "0.0.1",
   "description": "cli for mini_faas_worker",
-  "main": "index.js",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "mini_faas_worker": "dist/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "tsup src/index.ts --format=esm --watch",
+    "build": "tsup src/index.ts --format=esm --define.process.env.NODE_ENV \\\"production\\\"",
+    "lint": "eslint --cache --ignore-pattern dist .",
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "cli",
@@ -13,5 +22,21 @@
     "v8"
   ],
   "author": "lilong7676@outlook.com",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@mini_faas_worker/runtime": "workspace:^",
+    "chalk": "^5.0.1",
+    "commander": "^9.3.0",
+    "esbuild": "^0.14.41",
+    "fastify": "^3.29.0",
+    "inquirer": "^9.0.0",
+    "node-fetch": "^3.2.6",
+    "open": "^8.4.0",
+    "update-notifier": "^6.0.1"
+  },
+  "devDependencies": {
+    "@mini_faas_worker/common": "workspace:^",
+    "@types/inquirer": "^8.2.1",
+    "@types/update-notifier": "^5.1.0"
+  }
 }
