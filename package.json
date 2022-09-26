@@ -1,0 +1,11 @@
+{
+  "name": "mini_faas_worker",
+  "version": "1.0.0",
+  "description": "a mini faas worker base on V8",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lilong7676@outlook.com",
+  "license": "MIT"
+}
