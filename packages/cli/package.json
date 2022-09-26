@@ -1,0 +1,17 @@
+{
+  "name": "@mini_faas_worker/cli",
+  "version": "0.0.1",
+  "description": "cli for mini_faas_worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "cli",
+    "faas",
+    "worker",
+    "v8"
+  ],
+  "author": "lilong7676@outlook.com",
+  "license": "MIT"
+}
