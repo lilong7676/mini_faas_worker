@@ -1,11 +1,7 @@
 import fs from 'node:fs';
 import { build } from 'esbuild';
 import path from 'node:path';
-import { logDeploymentSuccessful, logError, logInfo } from './logger';
-import { API_URL } from './constants';
-import fetch, { FormData, File } from 'node-fetch';
-
-export const CONFIG_DIRECTORY = path.join(process.cwd(), '.mini_faas_worker');
+import { logInfo } from './logger';
 
 export async function bundleFunction({
   file,
@@ -15,7 +11,10 @@ export async function bundleFunction({
   file: string;
   clientFile?: string;
   assetsDir: string;
-}): Promise<{ code: string; assets: { name: string; content: string | Buffer }[] }> {
+}): Promise<{
+  code: string;
+  assets: { name: string; content: string | Buffer }[];
+}> {
   const assets: { name: string; content: string | Buffer }[] = [];
 
   logInfo('Bundling function handler...');
@@ -71,9 +70,14 @@ export async function bundleFunction({
   }
 
   if (fs.existsSync(assetsDir) && fs.statSync(assetsDir).isDirectory()) {
-    logInfo(`Found public directory (${path.basename(assetsDir)}), bundling assets...`);
+    logInfo(
+      `Found public directory (${path.basename(assetsDir)}), bundling assets...`
+    );
 
-    const getAssets = (directory: string, root?: string): { name: string; content: string | Buffer }[] => {
+    const getAssets = (
+      directory: string,
+      root?: string
+    ): { name: string; content: string | Buffer }[] => {
       const assets: { name: string; content: string | Buffer }[] = [];
       const files = fs.readdirSync(directory);
 
