@@ -14,17 +14,27 @@ export function getFileToDeploy(file: string): string | undefined {
   const extension = path.extname(fileToDeploy);
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    logError(`Extension '${extension}' is not supported (${SUPPORTED_EXTENSIONS.join(', ')})`);
+    logError(
+      `Extension '${extension}' is not supported (${SUPPORTED_EXTENSIONS.join(
+        ', '
+      )})`
+    );
     return;
   }
 
   return fileToDeploy;
 }
 
-export function getAssetsDir(fileToDeploy: string, publicDir: string): string | undefined {
+export function getAssetsDir(
+  fileToDeploy: string,
+  publicDir: string
+): string | undefined {
   const assetsDir = path.join(path.parse(fileToDeploy).dir, publicDir);
 
-  if ((!fs.existsSync(assetsDir) || !fs.statSync(assetsDir).isDirectory()) && publicDir !== 'public') {
+  if (
+    (!fs.existsSync(assetsDir) || !fs.statSync(assetsDir).isDirectory()) &&
+    publicDir !== 'public'
+  ) {
     logError(`Public directory '${publicDir}' does not exist.`);
     return;
   }
@@ -32,7 +42,10 @@ export function getAssetsDir(fileToDeploy: string, publicDir: string): string | 
   return assetsDir;
 }
 
-export function getClientFile(fileToDeploy: string, client: string): string | undefined {
+export function getClientFile(
+  fileToDeploy: string,
+  client: string
+): string | undefined {
   const clientFile = path.join(path.parse(fileToDeploy).dir, client);
 
   if (!fs.existsSync(clientFile) || fs.statSync(clientFile).isDirectory()) {
@@ -43,30 +56,13 @@ export function getClientFile(fileToDeploy: string, client: string): string | un
   const extension = path.extname(clientFile);
 
   if (!SUPPORTED_EXTENSIONS.includes(extension)) {
-    logError(`Extension '${extension}' is not supported (${SUPPORTED_EXTENSIONS.join(', ')})`);
+    logError(
+      `Extension '${extension}' is not supported (${SUPPORTED_EXTENSIONS.join(
+        ', '
+      )})`
+    );
     return;
   }
 
   return clientFile;
-}
-
-export function getEnvironmentVariables(fileToDeploy: string): Record<string, string> {
-  const envFile = path.join(path.parse(fileToDeploy).dir, '.env');
-
-  if (!fs.existsSync(envFile)) {
-    logInfo('Not .env file found, skipping...');
-    return {};
-  }
-
-  const content = fs.readFileSync(envFile, 'utf-8');
-
-  return content.split('\n').reduce((acc, line) => {
-    const [key, value] = line.split('=');
-
-    if (key && value) {
-      acc[key] = value;
-    }
-
-    return acc;
-  }, {} as Record<string, string>);
 }

@@ -45,7 +45,7 @@ async function getHandler({
   };
 }
 
-export async function getIsolate(code: string) {
+export async function getIsolate(code: string, timeout = 50) {
   const newCode = `${code}
     async function masterHandler(request) {
 
@@ -73,7 +73,7 @@ export async function getIsolate(code: string) {
     const response = await masterHandler.apply(undefined, [request], {
       result: { promise: true, copy: true },
       arguments: { copy: true },
-      timeout: 10000,
+      timeout,
     });
 
     return {

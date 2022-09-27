@@ -11,17 +11,8 @@ import { getIsolate, HandlerRequest } from '@mini_faas_worker/runtime';
 import Fastify from 'fastify';
 import { bundleFunction } from '../utils/deployments';
 import chalk from 'chalk';
-import {
-  getAssetsDir,
-  getClientFile,
-  getEnvironmentVariables,
-  getFileToDeploy,
-} from '../utils';
-import {
-  extensionToContentType,
-  FUNCTION_DEFAULT_MEMORY,
-  FUNCTION_DEFAULT_TIMEOUT,
-} from '@mini_faas_worker/common';
+import { getAssetsDir, getClientFile, getFileToDeploy } from '../utils';
+import { extensionToContentType } from '@mini_faas_worker/common';
 
 const fastify = Fastify({
   logger: false,
@@ -37,13 +28,11 @@ const getDate = () => dateFormatter.format(new Date());
 export async function dev(
   file: string,
   {
-    preact,
     client,
     publicDir,
     port,
     host,
   }: {
-    preact: boolean;
     client: string;
     publicDir: string;
     port: string;
@@ -65,7 +54,7 @@ export async function dev(
   let clientFile: string | undefined;
 
   if (client) {
-    clientFile = getClientFile(fileToDeploy, preact ? 'App.tsx' : client);
+    clientFile = getClientFile(fileToDeploy, client);
 
     if (!clientFile) {
       return;
@@ -98,14 +87,6 @@ export async function dev(
   });
 
   const deployment = {
-    deploymentId: 'deploymentId',
-    functionId: 'functionId',
-    functionName: 'functionName',
-    isCurrent: true,
-    memory: FUNCTION_DEFAULT_MEMORY,
-    timeout: FUNCTION_DEFAULT_TIMEOUT,
-    env: getEnvironmentVariables(fileToDeploy),
-    domains: [],
     assets: assets.map(({ name }) => name),
   };
 
