@@ -46,6 +46,8 @@ async function getHandler({
 }
 
 export async function getIsolate(code: string, timeout = 50) {
+  console.log('getIsolate with code', code);
+
   const newCode = `${code}
     async function masterHandler(request) {
 
