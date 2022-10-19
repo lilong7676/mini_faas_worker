@@ -57,6 +57,7 @@ importers:
     specifiers:
       '@mini_faas_worker/common': workspace:^
       '@mini_faas_worker/runtime': workspace:^
+      '@mini_faas_worker/sdk': workspace:^
       '@types/inquirer': ^8.2.1
       '@types/update-notifier': ^5.1.0
       chalk: ^5.0.1
@@ -68,7 +69,9 @@ importers:
       open: ^8.4.0
       update-notifier: ^6.0.1
     dependencies:
+      '@mini_faas_worker/common': link:../common
       '@mini_faas_worker/runtime': link:../runtime
+      '@mini_faas_worker/sdk': link:../sdk
       chalk: 5.0.1
       commander: 9.4.0
       esbuild: 0.14.54
@@ -78,7 +81,6 @@ importers:
       open: 8.4.0
       update-notifier: 6.0.2
     devDependencies:
-      '@mini_faas_worker/common': link:../common
       '@types/inquirer': 8.2.3
       '@types/update-notifier': 5.1.0
 
@@ -88,14 +90,40 @@ importers:
     dependencies:
       mrmime: 1.0.1
 
+  packages/gateway:
+    specifiers:
+      '@mini_faas_worker/common': workspace:^
+      '@mini_faas_worker/runtime': workspace:^
+      chalk: ^5.0.1
+      fastify: ^3.29.0
+    dependencies:
+      '@mini_faas_worker/runtime': link:../runtime
+      chalk: 5.0.1
+      fastify: 3.29.2
+    devDependencies:
+      '@mini_faas_worker/common': link:../common
+
   packages/runtime:
     specifiers:
+      '@mini_faas_worker/common': workspace:^
       '@types/node': ^17.0.35
       isolated-vm: ^4.4.1
     dependencies:
       isolated-vm: 4.4.1
     devDependencies:
+      '@mini_faas_worker/common': link:../common
       '@types/node': 17.0.45
+
+  packages/sdk:
+    specifiers:
+      '@mini_faas_worker/common': workspace:^
+      '@mini_faas_worker/runtime': workspace:^
+      chalk: ^5.0.1
+    dependencies:
+      '@mini_faas_worker/runtime': link:../runtime
+      chalk: 5.0.1
+    devDependencies:
+      '@mini_faas_worker/common': link:../common
 
   packages/types:
     specifiers: {}

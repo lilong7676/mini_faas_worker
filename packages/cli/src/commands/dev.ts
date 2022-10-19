@@ -1,5 +1,6 @@
 import path from 'node:path';
 import fs from 'node:fs';
+import { Client as ClientSDK } from '@mini_faas_worker/sdk';
 import {
   logInfo,
   logError,
@@ -7,7 +8,6 @@ import {
   logSpace,
   logWarn,
 } from '../utils/logger';
-import { getIsolate, HandlerRequest } from '@mini_faas_worker/runtime';
 import Fastify from 'fastify';
 import { bundleFunction } from '../utils/deployments';
 import chalk from 'chalk';
@@ -129,31 +129,12 @@ export async function dev(
     }
 
     try {
-      const runIsolate = await getIsolate(code);
-
-      const handlerRequest: HandlerRequest = {
-        input: request.protocol + '://' + request.hostname + request.url,
-        options: {
-          method: request.method,
-          headers: request.headers,
-          body:
-            typeof request.body === 'object'
-              ? JSON.stringify(request.body)
-              : String(request.body),
-        },
-      };
-
-      const { response } = await runIsolate(handlerRequest);
-
-      if (!response) {
-        throw new Error('Function did not return a response');
-      }
-
-      console.log('response', response);
-
-      const payload = response;
-
-      reply.status(200).send(payload);
+      const response = await ClientSDK.invokeFunctionWithCode(
+        code,
+        undefined,
+        request
+      );
+      reply.status(200).send(response);
     } catch (error) {
       reply.status(500).header('Content-Type', 'text/html').send();
 

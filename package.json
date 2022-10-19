@@ -4,11 +4,13 @@
   "description": "a mini faas worker base on V8",
   "main": "index.js",
   "scripts": {
+    "test": "vitest run",
+    "test:update": "pnpm test -- -u",
+    "test:watch": "vitest",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "husky install",
     "clean-install": "rm -rf node_modules && rm -rf ./packages/*/node_modules && pnpm -r i",
     "build": "turbo run build --continue",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "commit": "cz",
     "commitlint": "commitlint",
     "lint-staged": "lint-staged"

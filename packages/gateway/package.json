@@ -1,0 +1,34 @@
+{
+  "name": "@mini_faas_worker/gateway",
+  "version": "0.0.1",
+  "description": "gateway for mini_faas_worker",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "mini_faas_worker": "dist/index.js"
+  },
+  "scripts": {
+    "watch": "tsup src/index.ts --format=esm --dts --watch",
+    "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "lint": "eslint --cache --ignore-pattern dist .",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "gateway",
+    "faas",
+    "worker",
+    "v8"
+  ],
+  "author": "lilong7676@outlook.com",
+  "license": "MIT",
+  "dependencies": {
+    "@mini_faas_worker/runtime": "workspace:^",
+    "chalk": "^5.0.1",
+    "fastify": "^3.29.0"
+  },
+  "devDependencies": {
+    "@mini_faas_worker/common": "workspace:^"
+  }
+}

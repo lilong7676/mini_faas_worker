@@ -25,6 +25,8 @@
   "license": "MIT",
   "dependencies": {
     "@mini_faas_worker/runtime": "workspace:^",
+    "@mini_faas_worker/sdk": "workspace:^",
+    "@mini_faas_worker/common": "workspace:^",
     "chalk": "^5.0.1",
     "commander": "^9.3.0",
     "esbuild": "^0.14.41",
@@ -35,7 +37,6 @@
     "update-notifier": "^6.0.1"
   },
   "devDependencies": {
-    "@mini_faas_worker/common": "workspace:^",
     "@types/inquirer": "^8.2.1",
     "@types/update-notifier": "^5.1.0"
   }

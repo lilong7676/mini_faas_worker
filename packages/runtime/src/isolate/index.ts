@@ -1,4 +1,5 @@
 import ivm from 'isolated-vm';
+import { FUNCTION_DEFAULT_TIMEOUT } from '@mini_faas_worker/common';
 import { initRuntime } from './runtime';
 import { HandlerRequest } from '..';
 
@@ -45,7 +46,10 @@ async function getHandler({
   };
 }
 
-export async function getIsolate(code: string, timeout = 50) {
+export async function getIsolate(
+  code: string,
+  timeout = FUNCTION_DEFAULT_TIMEOUT
+) {
   console.log('getIsolate with code', code);
 
   const newCode = `${code}
