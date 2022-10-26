@@ -1,0 +1,35 @@
+{
+  "name": "@mini_faas_worker/serverless",
+  "version": "0.0.1",
+  "description": "serverless for mini_faas_worker",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "bin": {
+    "serverless": "dist/index.js"
+  },
+  "scripts": {
+    "watch": "tsup src/index.ts --format=esm --dts --watch",
+    "dev": "node --loader tsx src/index.ts",
+    "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "lint": "eslint --cache --ignore-pattern dist .",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "gateway",
+    "faas",
+    "worker",
+    "v8"
+  ],
+  "author": "lilong7676@outlook.com",
+  "license": "MIT",
+  "dependencies": {
+    "@mini_faas_worker/common": "workspace:^",
+    "ioredis": "^5.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20",
+    "tsx": "^3.11.0"
+  }
+}

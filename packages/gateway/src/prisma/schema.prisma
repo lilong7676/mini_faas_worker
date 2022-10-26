@@ -1,0 +1,44 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Function {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  name    String        @unique
+  domains Domain[]
+  deployments Deployment[]
+}
+
+model Deployment {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  function   Function @relation(fields: [functionId], references: [id])
+  functionId String
+
+  trigger String  @default("http")
+
+}
+
+model Domain {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  domain String @unique
+
+  function   Function @relation(fields: [functionId], references: [id])
+  functionId String
+}

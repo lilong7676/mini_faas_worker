@@ -37,7 +37,7 @@
     "git-cz": "^4.7.6",
     "husky": "^8.0.1",
     "lint-staged": "^13.0.2",
-    "nodemon": "^2.0.16",
+    "nodemon": "^2.0.20",
     "prettier": "^2.6.2",
     "tsup": "^6.0.1",
     "turbo": "^1.5.3",
