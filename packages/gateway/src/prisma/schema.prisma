@@ -11,34 +11,31 @@ datasource db {
 }
 
 model Function {
-  id        String   @id @default(cuid())
+  id          String       @id @default(cuid())
+  name        String       @unique
+  domains     Domain[]
+  deployments Deployment[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  name    String        @unique
-  domains Domain[]
-  deployments Deployment[]
 }
 
 model Deployment {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id         String   @id @default(cuid())
   function   Function @relation(fields: [functionId], references: [id])
   functionId String
+  trigger    String   @default("http")
 
-  trigger String  @default("http")
-
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Domain {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id     String @id @default(cuid())
   domain String @unique
-
   function   Function @relation(fields: [functionId], references: [id])
   functionId String
+  
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }

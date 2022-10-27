@@ -26,9 +26,11 @@
   "license": "MIT",
   "dependencies": {
     "@mini_faas_worker/common": "workspace:^",
-    "ioredis": "^5.2.3"
+    "ioredis": "^5.2.3",
+    "node-fetch": "^3.2.6"
   },
   "devDependencies": {
+    "@mini_faas_worker/types": "workspace:^",
     "nodemon": "^2.0.20",
     "tsx": "^3.11.0"
   }

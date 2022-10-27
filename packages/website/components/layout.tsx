@@ -1,5 +1,6 @@
-import { Container, Row, Spacer, Col } from '@nextui-org/react';
+import { Container } from '@nextui-org/react';
 import { Navbar, Button, Link, Text } from '@nextui-org/react';
+import { useRouter } from 'next/router';
 
 export const siteTitle = 'Mini FaaS Worker';
 
@@ -10,6 +11,7 @@ export default function Layout({
   children: React.ReactNode;
   home?: boolean;
 }) {
+  const router = useRouter();
   return (
     <Container
       className="layout-container"
@@ -22,7 +24,12 @@ export default function Layout({
     >
       <Navbar height={'76px'} isBordered>
         <Navbar.Brand>
-          <Text b color="inherit">
+          <Text
+            b
+            color="inherit"
+            css={{ cursor: 'pointer' }}
+            onClick={() => router.push('/')}
+          >
             Mini FaaS Worker
           </Text>
         </Navbar.Brand>
@@ -47,7 +54,11 @@ export default function Layout({
       </Navbar>
       <Container
         display="flex"
-        css={{ height: 'calc(100vh - 76px)', flexDirection: 'column' }}
+        css={{
+          height: 'calc(100vh - 76px)',
+          flexDirection: 'column',
+          padding: '0.6667rem 0 0 0',
+        }}
       >
         {children}
       </Container>

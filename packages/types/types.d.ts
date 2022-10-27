@@ -18,7 +18,9 @@ export interface Domain {
 export interface Deployment {
   id: string;
   functionId: string;
-  trigger: string;
+  trigger: Trigger;
   createdAt: string;
   updatedAt: string;
 }
+
+type Trigger = 'http' | 'event';

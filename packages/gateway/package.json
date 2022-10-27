@@ -27,6 +27,7 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "@fastify/multipart": "^7.3.0",
     "@mini_faas_worker/runtime": "workspace:^",
     "chalk": "^5.0.1",
     "fastify": "^4.9.2",
