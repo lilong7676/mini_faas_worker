@@ -34,12 +34,12 @@ export default function Layout({
           </Text>
         </Navbar.Brand>
         <Navbar.Content>
-          <Navbar.Link isActive href="#">
+          {/* <Navbar.Link isActive href="#">
             Workers
           </Navbar.Link>
           <Navbar.Link href="#">others</Navbar.Link>
           <Navbar.Link href="#">others</Navbar.Link>
-          <Navbar.Link href="#">others</Navbar.Link>
+          <Navbar.Link href="#">others</Navbar.Link> */}
         </Navbar.Content>
         <Navbar.Content>
           <Navbar.Link color="inherit" href="#">

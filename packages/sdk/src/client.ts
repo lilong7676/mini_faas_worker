@@ -52,16 +52,9 @@ export async function invokeFunctionWithCode(
       throw new Error('Function did not return a response');
     }
 
-    console.log('response', response);
+    console.log('typeof response', typeof response);
 
-    // 允许返回 Readable
-    if (response instanceof Readable) {
-      response.on('end', () => {
-        isolate.dispose();
-      });
-    } else {
-      isolate.dispose();
-    }
+    isolate.dispose();
 
     return response;
   } catch (error) {

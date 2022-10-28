@@ -3,10 +3,9 @@ import type { MenuProps } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Row, Col, Spacer, Text } from '@nextui-org/react';
-import { Deployment, Func } from '@mini_faas_worker/types';
+import { Deployment } from '@mini_faas_worker/types';
 
 interface IProps {
-  funcDetail: Func;
   deployment: Deployment;
 }
 
