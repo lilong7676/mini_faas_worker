@@ -4,6 +4,7 @@
   "description": "a mini faas worker base on V8",
   "main": "index.js",
   "scripts": {
+    "dev": "concurrently -n gateway,serverless,website \"pnpm --filter @mini_faas_worker/gateway dev\" \"pnpm --filter @mini_faas_worker/serverless dev\" \"pnpm --filter @mini_faas_worker/website dev\"",
     "test": "vitest run",
     "test:update": "pnpm test -- -u",
     "test:watch": "vitest",
@@ -28,6 +29,7 @@
     "@typescript-eslint/eslint-plugin": "^5.26.0",
     "@typescript-eslint/parser": "^5.26.0",
     "commitizen": "^4.2.4",
+    "concurrently": "^7.5.0",
     "conventional-changelog-cli": "^2.1.1",
     "cz-conventional-changelog": "^3.3.0",
     "esbuild": "^0.14.41",

@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import { Row, Col, Spacer, Card, Text, Button } from '@nextui-org/react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 import { Func } from '@mini_faas_worker/types';
 import Layout from 'components/layout';
 import { getData } from 'libs/fetchData';
@@ -24,6 +25,16 @@ const WorkerDetail: NextPage<Props> = ({ funcDetail }) => {
         className="worker-detail"
         css={{ height: '100%', display: 'flex', flexDirection: 'column' }}
       >
+        <Row>
+          <Link href="/">
+            <Row align="center">
+              <Text color="primary" css={{ cursor: 'pointer' }}>
+                &#8592;主页&nbsp;
+              </Text>
+              <Text>{'/ 详情'}</Text>
+            </Row>
+          </Link>
+        </Row>
         <Card css={{ mw: '330px' }}>
           <Card.Header>
             <Text>
@@ -60,7 +71,7 @@ const WorkerDetail: NextPage<Props> = ({ funcDetail }) => {
               <Button
                 size={'xs'}
                 onPress={() => {
-                  router.push(`editor/${id}`);
+                  router.push(`playground/${id}`);
                 }}
               >
                 编辑函数

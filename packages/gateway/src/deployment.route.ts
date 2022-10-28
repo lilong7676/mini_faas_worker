@@ -4,8 +4,9 @@ import Redis from 'ioredis';
 import { pipeline } from 'node:stream';
 import fs from 'node:fs';
 import path from 'node:path';
-import { Prisma, PrismaClient, Deployment } from '@prisma/client';
+import { PrismaClient, Deployment } from '@prisma/client';
 
+const OSSPath = '.fakeOSS'
 interface IBody_CreateFunction {
   name: string;
 }
@@ -107,7 +108,7 @@ export default async function deploymentRoutes(
         const deploymentId = deploymentResult.id;
 
         // 根据部署 id 保存函数文件到 OSS
-        const funcDir = path.join(process.cwd(), 'fakeOSS', deploymentId);
+        const funcDir = path.join(process.cwd(), OSSPath, deploymentId);
         const funcFullPath = path.join(funcDir, data.filename);
         await new Promise<void>((resolve, reject) => {
           fs.promises.mkdir(funcDir, { recursive: true }).then(() => {
@@ -133,7 +134,21 @@ export default async function deploymentRoutes(
   /**
    * 获取所有部署信息
    */
-  fastify.get('/listDeployments', () => {
+  fastify.get('/listDeployments', async () => {
     return prisma.deployment.findMany();
   });
+
+  /**
+   * 获取部署的代码
+   */
+  fastify.get<{ Querystring: { deploymentId: string } }>(
+    '/getDeploymentCode',
+    async request => {
+      const { deploymentId } = request.query;
+      const funcDir = path.join(process.cwd(), OSSPath, deploymentId);
+      const funcFullPath = path.join(funcDir, 'index.js');
+      const code = await fs.promises.readFile(funcFullPath, 'utf8');
+      return { code };
+    }
+  );
 }

@@ -11,7 +11,7 @@
   },
   "scripts": {
     "watch": "tsup src/index.ts --format=esm --dts --watch",
-    "dev": "tsx watch src/index.ts",
+    "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
     "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
@@ -27,6 +27,7 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "@fastify/cors": "^8.1.1",
     "@fastify/multipart": "^7.3.0",
     "@mini_faas_worker/runtime": "workspace:^",
     "chalk": "^5.0.1",
@@ -34,7 +35,6 @@
     "ioredis": "^5.2.3"
   },
   "devDependencies": {
-    "@fastify/cors": "^8.1.1",
     "@mini_faas_worker/common": "workspace:^",
     "@prisma/client": "^4.5.0",
     "prisma": "^4.5.0",

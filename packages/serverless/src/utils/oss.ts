@@ -1,12 +1,11 @@
 import path from 'node:path';
 import fs from 'node:fs';
-
-const LocalDeploymentsDir = path.join(process.cwd(), '.deployments');
+import { LocalDeploymentsDir } from './deployments';
 
 export async function fetchAndSaveOSSFile(deploymentId: string) {
   const fakeOssFilePath = path.resolve(
     process.cwd(),
-    `../gateway/fakeOSS/${deploymentId}/index.js`
+    `../gateway/.fakeOSS/${deploymentId}/index.js`
   );
   const copyDestDir = path.join(LocalDeploymentsDir, deploymentId);
   const copyDest = path.join(copyDestDir, `index.js`);

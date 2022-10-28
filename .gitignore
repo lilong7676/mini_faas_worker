@@ -201,3 +201,5 @@ yalc.lock
 
 # turborepo
 .turbo/
+
+.fakeOSS

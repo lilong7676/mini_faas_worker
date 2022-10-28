@@ -85,7 +85,7 @@ export default function WorkersOverview() {
         </Col>
 
         <Col>
-          <div>hhh</div>
+          <div></div>
         </Col>
       </Row>
     </Container>
