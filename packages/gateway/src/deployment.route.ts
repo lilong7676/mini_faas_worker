@@ -6,7 +6,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { PrismaClient, Deployment } from '@prisma/client';
 
-const OSSPath = '.fakeOSS'
+const OSSPath = '.fakeOSS';
 interface IBody_CreateFunction {
   name: string;
 }
