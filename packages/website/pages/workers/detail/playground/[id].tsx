@@ -101,20 +101,22 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
             </Row>
           </Link>
         </Row>
-        <Row css={{ flexGrow: 1 }}>
+        <Row css={{ flexGrow: 1, overflow: 'hidden' }}>
           <Row justify="center" css={{ height: '100%' }}>
-            {loadingCode ? (
-              <Loading>加载代码中...</Loading>
-            ) : (
-              <Editor
-                defaultLanguage="javascript"
-                defaultValue={defaultCode}
-                value={code}
-                onMount={handleEditorDidMount}
-                className="worker-editor-monaco"
-              />
-            )}
-            <Col>
+            <section style={{ width: '50%', height: '100%' }}>
+              {loadingCode ? (
+                <Loading>加载代码中...</Loading>
+              ) : (
+                <Editor
+                  defaultLanguage="javascript"
+                  defaultValue={defaultCode}
+                  value={code}
+                  onMount={handleEditorDidMount}
+                  className="worker-editor-monaco"
+                />
+              )}
+            </section>
+            <Col css={{ height: '100%', width: '50%', overflowY: 'auto' }}>
               <Tabs
                 defaultActiveKey="1"
                 onChange={onChange}
@@ -127,7 +129,7 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
                     ),
                   },
                   {
-                    label: `预览`,
+                    label: `预览(TODO)`,
                     key: '2',
                     children: `Content of Tab Pane 2`,
                   },

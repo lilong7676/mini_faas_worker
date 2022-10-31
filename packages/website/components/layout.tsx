@@ -54,6 +54,7 @@ export default function Layout({
       </Navbar>
       <Container
         display="flex"
+        className="layout-child-container"
         css={{
           height: 'calc(100vh - 76px)',
           flexDirection: 'column',
