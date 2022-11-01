@@ -63,5 +63,6 @@ export async function invokeFunctionWithCode(
         (error as Error).message
       }: ${(error as Error).stack}`
     );
+    return {};
   }
 }

@@ -24,6 +24,7 @@ export async function fetch(
       {
         method: init?.method || 'GET',
         headers,
+        timeout: 10000,
       },
       response => {
         let body = '';

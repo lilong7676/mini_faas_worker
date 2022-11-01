@@ -50,12 +50,17 @@ export async function getIsolate(
   code: string,
   timeout = FUNCTION_DEFAULT_TIMEOUT
 ) {
-  console.log('getIsolate with code', code);
-
   const newCode = `${code}
     async function masterHandler(request) {
 
       const response = await handler(request);
+
+      // 如果返回的是 ReadableStream, 比如 fetch 返回的就是 ReadableStream
+      // if (response.body instanceof ReadableStream) {
+      //   response.isReadableStream = 1;
+      // } else {
+      //   response.isReadableStream = 0;
+      // }
 
       return response;
     }

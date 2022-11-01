@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "watch": "tsup src/index.ts --format=esm --dts --watch",
+    "dev": "tsup src/index.ts --format=esm --dts --watch",
     "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
