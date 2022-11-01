@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:32:42
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-10-28 15:51:42
+ * @Last Modified time: 2022-11-01 14:31:03
  */
 import { RequestInit } from '../bindings/fetch/Request';
 import { Response } from '../bindings/fetch/Response';
@@ -21,3 +21,6 @@ export async function fetch(resource: string, init: RequestInit) {
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 global.fetch = fetch;
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+global.Response = Response;

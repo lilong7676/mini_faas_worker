@@ -1,5 +1,5 @@
-import { Readable } from 'stream';
 import { getIsolate, HandlerRequest } from '@mini_faas_worker/runtime';
+import { Response } from '@mini_faas_worker/runtime';
 
 export interface MetadataInit {
   protocol: string;
@@ -29,7 +29,7 @@ export async function invokeFunctionWithCode(
   code: string,
   data: Buffer | undefined,
   metadata: MetadataInit
-) {
+): Promise<Response> {
   let body;
   if (data instanceof Buffer) {
     body = data;
@@ -53,6 +53,7 @@ export async function invokeFunctionWithCode(
     }
 
     console.log('typeof response', typeof response);
+    console.log('response instanceof Response', response instanceof Response);
 
     isolate.dispose();
 
@@ -63,6 +64,6 @@ export async function invokeFunctionWithCode(
         (error as Error).message
       }: ${(error as Error).stack}`
     );
-    return {};
+    return new Response('');
   }
 }

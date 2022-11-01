@@ -16,9 +16,7 @@ export class Response {
   constructor(body: string | Uint8Array, options?: ResponseInit) {
     this.body = body;
 
-    if (options?.headers) {
-      this.headers = options.headers;
-    }
+    this.headers = options?.headers || {};
 
     if (options?.status) {
       this.ok = options.status >= 200 && options.status < 300;

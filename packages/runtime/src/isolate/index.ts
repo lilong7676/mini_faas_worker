@@ -2,6 +2,7 @@ import ivm from 'isolated-vm';
 import { FUNCTION_DEFAULT_TIMEOUT } from '@mini_faas_worker/common';
 import { initRuntime } from './runtime';
 import { HandlerRequest } from '..';
+import { Response } from 'src/bindings/fetch/Response';
 
 async function createIsolate() {
   const isolate = new ivm.Isolate({
@@ -81,11 +82,11 @@ export async function getIsolate(
   }
 
   return async (request: HandlerRequest) => {
-    const response = await masterHandler.apply(undefined, [request], {
+    const response = (await masterHandler.apply(undefined, [request], {
       result: { promise: true, copy: true },
       arguments: { copy: true },
       timeout,
-    });
+    })) as Response;
 
     return {
       isolate,

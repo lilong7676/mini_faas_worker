@@ -10,3 +10,4 @@ export type HandlerRequest = {
 };
 
 export { getIsolate } from './isolate';
+export { Response } from './bindings/fetch/Response';
