@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-01 17:14:37
+ * @Last Modified time: 2022-11-01 17:55:49
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -43,9 +43,9 @@ export default async function startServer(port: number) {
     });
 
     let body = response.body;
-    // 如果返回是 Uint8Array，如返回的是图片
-    if (response.body instanceof Uint8Array) {
-      body = Buffer.concat([response.body]);
+    // 如果返回是 Uint8Array，则需要转成 Buffer
+    if (body instanceof Uint8Array) {
+      body = Buffer.concat([body]);
     }
 
     reply.status(response.status).headers(response.headers).send(body);
