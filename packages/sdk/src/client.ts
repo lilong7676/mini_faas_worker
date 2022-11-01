@@ -52,9 +52,6 @@ export async function invokeFunctionWithCode(
       throw new Error('Function did not return a response');
     }
 
-    console.log('typeof response', typeof response);
-    console.log('response instanceof Response', response instanceof Response);
-
     isolate.dispose();
 
     return response;

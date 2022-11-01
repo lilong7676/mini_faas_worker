@@ -4,7 +4,7 @@ import { ResponseInit } from './Response';
 import { RequestInit } from './Request';
 
 export interface FetchResult {
-  body: string;
+  body: string | Buffer;
   options: ResponseInit;
 }
 
@@ -27,10 +27,10 @@ export async function fetch(
         timeout: 10000,
       },
       response => {
-        let body = '';
+        const data: Uint8Array[] = [];
 
-        response.on('data', chunk => {
-          body += chunk;
+        response.on('data', (chunk: Uint8Array) => {
+          data.push(chunk);
         });
 
         response.on('end', () => {
@@ -43,7 +43,7 @@ export async function fetch(
           });
 
           resolve({
-            body,
+            body: Buffer.concat(data),
             options: {
               status: response.statusCode,
               statusText: response.statusMessage,
