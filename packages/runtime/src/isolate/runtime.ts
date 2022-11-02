@@ -5,8 +5,17 @@ import { fetch, FetchResult } from 'src/bindings/fetch/fetch';
 import { RequestInit } from 'src/bindings/fetch/Request';
 
 export async function initRuntime(context: ivm.Context) {
-  await context.global.set('global', context.global.derefInto());
-  await context.global.set('eval', undefined);
+  // Get a Reference{} to the global object within the context.
+  const jail = context.global;
+
+  // This makes the global object available in the context as `global`. We use `derefInto()` here
+  // because otherwise `global` would actually be a Reference{} object in the new isolate.
+  await jail.set('global', jail.derefInto());
+
+  // disable eval in global
+  await jail.set('eval', undefined);
+
+  // inject fetch in global
   await mockFetch(context);
 }
 
