@@ -11,6 +11,7 @@ import { Tabs } from 'antd';
 
 import Layout from 'components/layout';
 import HttpTriggerRunner from 'components/workers/detail/playground/HttpTriggerRunner';
+import Preview from 'components/workers/detail/playground/Preview';
 import { getData, postFormData } from 'libs/fetchData';
 
 interface Props {
@@ -118,6 +119,7 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
             </section>
             <Col css={{ height: '100%', width: '50%', overflowY: 'auto' }}>
               <Tabs
+                style={{ width: '100%', height: '100%' }}
                 defaultActiveKey="1"
                 onChange={onChange}
                 items={[
@@ -129,9 +131,9 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
                     ),
                   },
                   {
-                    label: `预览(TODO)`,
+                    label: `预览`,
                     key: '2',
-                    children: `Content of Tab Pane 2`,
+                    children: <Preview deployment={finalDeployment} />,
                   },
                 ]}
               />
