@@ -12,7 +12,7 @@
   "scripts": {
     "watch": "tsup src/index.ts --format=esm --dts --watch",
     "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
-    "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "build": "pnpm prisma:generate && tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",

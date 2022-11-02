@@ -12,8 +12,8 @@ const redis = new Redis();
 const fastify: FastifyInstance = Fastify({
   logger: true,
 });
-await fastify.register(cors);
-await fastify.register(multipart);
+fastify.register(cors);
+fastify.register(multipart);
 
 fastify.register(deploymentRoutes, { redis, prisma });
 
