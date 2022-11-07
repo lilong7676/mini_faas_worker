@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import ivm from 'isolated-vm';
 import { fetch, FetchResult } from 'src/bindings/fetch/fetch';
+import { log, LogParams } from 'src/bindings/logger';
 import { RequestInit } from 'src/bindings/fetch/Request';
 
 export async function initRuntime(context: ivm.Context) {
@@ -15,8 +16,11 @@ export async function initRuntime(context: ivm.Context) {
   // disable eval in global
   await jail.set('eval', undefined);
 
-  // inject fetch in global
+  // inject fetch into global
   await mockFetch(context);
+
+  // inject console into global
+  await mockConsole(context);
 }
 
 // 注入 fetch
@@ -31,6 +35,23 @@ async function mockFetch(context: ivm.Context) {
     ],
     {
       result: { promise: true, reference: true },
+      arguments: { reference: true },
+      filename,
+    }
+  );
+}
+
+async function mockConsole(context: ivm.Context) {
+  const { code, filename } = readRuntimeFile('console');
+  await context.evalClosure(
+    code,
+    [
+      (args: LogParams) => {
+        log(args);
+      },
+    ],
+    {
+      result: { copy: true },
       arguments: { reference: true },
       filename,
     }
