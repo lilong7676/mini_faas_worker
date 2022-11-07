@@ -2,6 +2,7 @@ Try implement a FaaS Worker based on V8 Isolate.
 
 *Refer to the [Lagon](https://github.com/lagonapp/lagon) implementation and thank them for their efforts.*
 
+## ⚠️请使用nodejs 16版本及以上运行此 demo
 
 ### 运行 cli demo
 ```bash
