@@ -1,11 +1,15 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import ivm from 'isolated-vm';
+import { Deployment } from '@mini_faas_worker/types';
 import { fetch, FetchResult } from 'src/bindings/fetch/fetch';
 import { log, LogParams } from 'src/bindings/logger';
 import { RequestInit } from 'src/bindings/fetch/Request';
 
-export async function initRuntime(context: ivm.Context) {
+export async function initRuntime(
+  deployment: Deployment | undefined,
+  context: ivm.Context
+) {
   // Get a Reference{} to the global object within the context.
   const jail = context.global;
 
@@ -20,7 +24,7 @@ export async function initRuntime(context: ivm.Context) {
   await mockFetch(context);
 
   // inject console into global
-  await mockConsole(context);
+  await mockConsole(deployment, context);
 }
 
 // 注入 fetch
@@ -41,13 +45,16 @@ async function mockFetch(context: ivm.Context) {
   );
 }
 
-async function mockConsole(context: ivm.Context) {
+async function mockConsole(
+  deployment: Deployment | undefined,
+  context: ivm.Context
+) {
   const { code, filename } = readRuntimeFile('console');
   await context.evalClosure(
     code,
     [
       (args: LogParams) => {
-        log(args);
+        log(deployment, args);
       },
     ],
     {

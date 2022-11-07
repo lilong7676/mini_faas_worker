@@ -1,5 +1,6 @@
 import { getIsolate, HandlerRequest } from '@mini_faas_worker/runtime';
 import { Response } from '@mini_faas_worker/runtime';
+import { Deployment } from '@mini_faas_worker/types';
 
 export interface MetadataInit {
   protocol: string;
@@ -22,10 +23,11 @@ export async function invokeFunction(
   metadata: MetadataInit
 ) {
   const code = await getFunctionByName(name);
-  return invokeFunctionWithCode(code, data, metadata);
+  return invokeFunctionWithCode(undefined, code, data, metadata);
 }
 
 export async function invokeFunctionWithCode(
+  deployment: Deployment | undefined,
   code: string,
   data: Buffer | undefined,
   metadata: MetadataInit
@@ -35,7 +37,7 @@ export async function invokeFunctionWithCode(
     body = data;
   }
   try {
-    const runIsolate = await getIsolate(code);
+    const runIsolate = await getIsolate(deployment, code);
 
     const handlerRequest: HandlerRequest = {
       input: metadata.protocol + '://' + metadata.hostname + metadata.url,

@@ -130,6 +130,7 @@ export async function dev(
 
     try {
       const response = await ClientSDK.invokeFunctionWithCode(
+        undefined,
         code,
         undefined,
         request

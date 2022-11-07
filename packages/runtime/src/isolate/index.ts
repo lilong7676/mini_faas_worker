@@ -1,16 +1,17 @@
 import ivm from 'isolated-vm';
 import { FUNCTION_DEFAULT_TIMEOUT } from '@mini_faas_worker/common';
+import { Deployment } from '@mini_faas_worker/types';
 import { initRuntime } from './runtime';
 import { HandlerRequest } from '..';
 import { Response } from 'src/bindings/fetch/Response';
 
-async function createIsolate() {
+async function createIsolate(deployment?: Deployment) {
   const isolate = new ivm.Isolate({
     memoryLimit: 128,
   });
   const context = await isolate.createContext();
 
-  initRuntime(context);
+  initRuntime(deployment, context);
 
   return {
     isolate,
@@ -48,6 +49,7 @@ async function getHandler({
 }
 
 export async function getIsolate(
+  deployment: Deployment | undefined,
   code: string,
   timeout = FUNCTION_DEFAULT_TIMEOUT
 ) {
@@ -70,7 +72,7 @@ export async function getIsolate(
 
 `;
 
-  const { isolate, context } = await createIsolate();
+  const { isolate, context } = await createIsolate(deployment);
   const { handler, masterHandler } = await getHandler({
     isolate,
     context,

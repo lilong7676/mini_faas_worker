@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-01 17:55:49
+ * @Last Modified time: 2022-11-07 13:51:28
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -34,13 +34,18 @@ export default async function startServer(port: number) {
     }
 
     const code = await getDeploymentCode(deployment.id);
-    const response = await ClientSDK.invokeFunctionWithCode(code, undefined, {
-      method: request.method,
-      headers: request.headers,
-      url: request.url,
-      hostname: request.hostname,
-      protocol: request.protocol,
-    });
+    const response = await ClientSDK.invokeFunctionWithCode(
+      deployment,
+      code,
+      undefined,
+      {
+        method: request.method,
+        headers: request.headers,
+        url: request.url,
+        hostname: request.hostname,
+        protocol: request.protocol,
+      }
+    );
 
     let body = response.body;
     // 如果返回是 Uint8Array，则需要转成 Buffer

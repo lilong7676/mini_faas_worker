@@ -28,6 +28,7 @@
   },
   "devDependencies": {
     "@mini_faas_worker/common": "workspace:^",
-    "@mini_faas_worker/runtime": "workspace:^"
+    "@mini_faas_worker/runtime": "workspace:^",
+    "@mini_faas_worker/types": "workspace:^"
   }
 }
