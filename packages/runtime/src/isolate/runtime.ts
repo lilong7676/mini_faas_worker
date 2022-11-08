@@ -25,6 +25,9 @@ export async function initRuntime(
 
   // inject console into global
   await mockConsole(deployment, context);
+
+  // inject fs for demo
+  await mockFs(context);
 }
 
 // 注入 fetch
@@ -59,6 +62,23 @@ async function mockConsole(
     ],
     {
       result: { copy: true },
+      arguments: { reference: true },
+      filename,
+    }
+  );
+}
+
+async function mockFs(context: ivm.Context) {
+  const { code, filename } = readRuntimeFile('fs');
+  await context.evalClosure(
+    code,
+    [
+      async (method, ...args) => {
+        return fs.promises[method].apply(undefined, args);
+      },
+    ],
+    {
+      result: { promise: true, reference: true },
       arguments: { reference: true },
       filename,
     }
