@@ -10,7 +10,7 @@ async function createIsolate(
   onFuncLogCallback?: OnFuncLogCallback
 ) {
   const isolate = new ivm.Isolate({
-    memoryLimit: 128,
+    memoryLimit: 8,
   });
   const context = await isolate.createContext();
 
