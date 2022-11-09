@@ -10,20 +10,6 @@ import {
   MetadataInit,
 } from '@mini_faas_worker/types';
 
-// TODO！
-async function getFunctionByName(name: string) {
-  return '';
-}
-
-export async function invokeFunction(
-  name: string,
-  data: Buffer | undefined,
-  metadata: MetadataInit
-) {
-  const code = await getFunctionByName(name);
-  return invokeFunctionWithCode(undefined, code, data, metadata);
-}
-
 export async function invokeFunctionWithCode(
   deployment: Deployment | undefined,
   code: string,
@@ -52,11 +38,36 @@ export async function invokeFunctionWithCode(
       },
     };
 
+    console.time('-----sdk----- runIsolate');
     const { response, isolate } = await runIsolate(handlerRequest);
 
     if (!response) {
+      isolate.dispose();
       throw new Error('Function did not return a response');
     }
+    console.timeEnd('-----sdk----- runIsolate');
+    console.log(
+      '-----sdk----- runIsolate',
+      'ioslate cpuTime',
+      isolate.cpuTime,
+      `${Number(isolate.cpuTime) / 1000000}ms`
+    );
+    console.log(
+      '-----sdk----- runIsolate',
+      'ioslate wallTime',
+      isolate.wallTime,
+      `${Number(isolate.wallTime) / 1000000}ms`
+    );
+
+    /**
+     * https://stackoverflow.com/a/47768386/11825450
+     */
+    const heapStatistics = isolate.getHeapStatisticsSync();
+    Object.entries(heapStatistics).forEach(([key, value]) => {
+      console.log(
+        `-----sdk----- runIsolate ${key}: ${value}B (${value / 1024 / 1024}MB)`
+      );
+    });
 
     isolate.dispose();
 
