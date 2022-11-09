@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-11-09 22:22:35
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-09 15:05:20
+ * @Last Modified time: 2022-11-09 15:07:50
  */
 import path from 'path';
 import { createLogger, format, transports } from 'winston';
@@ -33,7 +33,7 @@ export const onFuncLog: OnFuncLogCallback = async (deployment, params) => {
 
   logger.log({
     level: logLevel,
-    message: args.join(''),
+    message: args.join(' '),
     deploymentId: id,
   });
 };
