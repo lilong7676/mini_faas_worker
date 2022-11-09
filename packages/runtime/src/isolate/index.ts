@@ -1,17 +1,20 @@
 import ivm from 'isolated-vm';
 import { FUNCTION_DEFAULT_TIMEOUT } from '@mini_faas_worker/common';
-import { Deployment } from '@mini_faas_worker/types';
+import { Deployment, OnFuncLogCallback } from '@mini_faas_worker/types';
 import { initRuntime } from './runtime';
 import { HandlerRequest } from '..';
 import { Response } from 'src/bindings/fetch/Response';
 
-async function createIsolate(deployment?: Deployment) {
+async function createIsolate(
+  deployment?: Deployment,
+  onFuncLogCallback?: OnFuncLogCallback
+) {
   const isolate = new ivm.Isolate({
     memoryLimit: 128,
   });
   const context = await isolate.createContext();
 
-  initRuntime(deployment, context);
+  initRuntime(deployment, context, onFuncLogCallback);
 
   return {
     isolate,
@@ -51,7 +54,8 @@ async function getHandler({
 export async function getIsolate(
   deployment: Deployment | undefined,
   code: string,
-  timeout = FUNCTION_DEFAULT_TIMEOUT
+  timeout = FUNCTION_DEFAULT_TIMEOUT,
+  onFuncLogCallback?: OnFuncLogCallback
 ) {
   const newCode = `${code}
     async function masterHandler(request) {
@@ -72,7 +76,10 @@ export async function getIsolate(
 
 `;
 
-  const { isolate, context } = await createIsolate(deployment);
+  const { isolate, context } = await createIsolate(
+    deployment,
+    onFuncLogCallback
+  );
   const { handler, masterHandler } = await getHandler({
     isolate,
     context,

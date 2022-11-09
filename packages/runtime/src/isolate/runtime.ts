@@ -1,14 +1,19 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import ivm from 'isolated-vm';
-import { Deployment } from '@mini_faas_worker/types';
+import {
+  Deployment,
+  OnFuncLogCallback,
+  LogParams,
+} from '@mini_faas_worker/types';
 import { fetch, FetchResult } from 'src/bindings/fetch/fetch';
-import { log, LogParams } from 'src/bindings/logger';
+import { log } from 'src/bindings/logger';
 import { RequestInit } from 'src/bindings/fetch/Request';
 
 export async function initRuntime(
   deployment: Deployment | undefined,
-  context: ivm.Context
+  context: ivm.Context,
+  onFuncLogCallback?: OnFuncLogCallback
 ) {
   // Get a Reference{} to the global object within the context.
   const jail = context.global;
@@ -24,7 +29,7 @@ export async function initRuntime(
   await mockFetch(context);
 
   // inject console into global
-  await mockConsole(deployment, context);
+  await mockConsole(deployment, context, onFuncLogCallback);
 
   // inject fs for demo
   await mockFs(context);
@@ -50,7 +55,8 @@ async function mockFetch(context: ivm.Context) {
 
 async function mockConsole(
   deployment: Deployment | undefined,
-  context: ivm.Context
+  context: ivm.Context,
+  onFuncLogCallback?: OnFuncLogCallback
 ) {
   const { code, filename } = readRuntimeFile('console');
   await context.evalClosure(
@@ -58,6 +64,7 @@ async function mockConsole(
     [
       (args: LogParams) => {
         log(deployment, args);
+        onFuncLogCallback?.(deployment, args);
       },
     ],
     {

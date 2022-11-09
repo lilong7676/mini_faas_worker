@@ -25,12 +25,14 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "@fastify/cors": "^8.1.1",
     "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/sdk": "workspace:^",
-    "@fastify/cors": "^8.1.1",
+    "fastify": "^4.9.2",
     "ioredis": "^5.2.3",
     "node-fetch": "^3.2.6",
-    "fastify": "^4.9.2"
+    "winston": "^3.8.2",
+    "winston-transport": "^4.5.0"
   },
   "devDependencies": {
     "@mini_faas_worker/types": "workspace:^",

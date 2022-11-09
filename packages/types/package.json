@@ -3,9 +3,10 @@
   "version": "0.0.1",
   "description": "types for faas worker",
   "type": "module",
-  "types": "types.d.ts",
+  "main": "types.ts",
+  "types": "types.ts",
   "files": [
-    "types.d.ts"
+    "types.ts"
   ],
   "scripts": {},
   "author": "lilong7676@outlook.com",

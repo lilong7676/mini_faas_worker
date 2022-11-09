@@ -1,16 +1,14 @@
-import { getIsolate, HandlerRequest } from '@mini_faas_worker/runtime';
-import { Response } from '@mini_faas_worker/runtime';
-import { Deployment } from '@mini_faas_worker/types';
-
-export interface MetadataInit {
-  protocol: string;
-  hostname: string;
-  url: string;
-  method: string;
-  headers: Record<string, string | string[] | undefined>;
-  timeout?: number;
-  requestId?: string;
-}
+import {
+  getIsolate,
+  HandlerRequest,
+  Response,
+} from '@mini_faas_worker/runtime';
+import { FUNCTION_DEFAULT_TIMEOUT } from '@mini_faas_worker/common';
+import {
+  Deployment,
+  OnFuncLogCallback,
+  MetadataInit,
+} from '@mini_faas_worker/types';
 
 // TODO！
 async function getFunctionByName(name: string) {
@@ -30,14 +28,20 @@ export async function invokeFunctionWithCode(
   deployment: Deployment | undefined,
   code: string,
   data: Buffer | undefined,
-  metadata: MetadataInit
+  metadata: MetadataInit,
+  onFuncLogCallback?: OnFuncLogCallback
 ): Promise<Response> {
   let body;
   if (data instanceof Buffer) {
     body = data;
   }
   try {
-    const runIsolate = await getIsolate(deployment, code);
+    const runIsolate = await getIsolate(
+      deployment,
+      code,
+      FUNCTION_DEFAULT_TIMEOUT,
+      onFuncLogCallback
+    );
 
     const handlerRequest: HandlerRequest = {
       input: metadata.protocol + '://' + metadata.hostname + metadata.url,

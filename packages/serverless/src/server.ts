@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-07 13:51:28
+ * @Last Modified time: 2022-11-09 11:26:49
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -11,10 +11,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import cors from '@fastify/cors';
 import { Client as ClientSDK } from '@mini_faas_worker/sdk';
+import { MetadataInit } from '@mini_faas_worker/types';
 import {
   getDeploymentFromRequest,
   getDeploymentCode,
 } from './utils/deployments';
+import { onFuncLog } from './utils/logger/funcLog';
 
 const fastify = Fastify({
   logger: true,
@@ -33,18 +35,25 @@ export default async function startServer(port: number) {
       return;
     }
 
+    // getDeploymentCode by deploymentId
     const code = await getDeploymentCode(deployment.id);
+
+    // init metadata for function invoke
+    const metadataInit: MetadataInit = {
+      method: request.method,
+      headers: request.headers,
+      url: request.url,
+      hostname: request.hostname,
+      protocol: request.protocol,
+    };
+
+    // invoke function through SDK
     const response = await ClientSDK.invokeFunctionWithCode(
       deployment,
       code,
       undefined,
-      {
-        method: request.method,
-        headers: request.headers,
-        url: request.url,
-        hostname: request.hostname,
-        protocol: request.protocol,
-      }
+      metadataInit,
+      onFuncLog
     );
 
     let body = response.body;
