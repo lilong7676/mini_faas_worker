@@ -64,7 +64,7 @@ async function mockConsole(
     [
       (args: LogParams) => {
         log(deployment, args);
-        onFuncLogCallback?.(deployment, args);
+        deployment && onFuncLogCallback?.(deployment, args);
       },
     ],
     {
