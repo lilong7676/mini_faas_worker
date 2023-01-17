@@ -15,6 +15,8 @@ import Preview from 'components/workers/detail/playground/Preview';
 import Devtools from 'components/devtools';
 import { getData, postFormData } from 'libs/fetchData';
 
+import S from './index.module.scss';
+
 interface Props {
   funcDetail: Func;
 }
@@ -110,45 +112,48 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
     <Layout>
       <Container style={containerStyle}>
         <Section minSize={100}>
-          <Link href={`/workers/detail/${encodeURIComponent(id)}`}>
-            <Row align="center">
-              <Text color="primary" css={{ cursor: 'pointer' }}>
-                &#8592;{name}&nbsp;
-              </Text>
-              <Text>{'/ development'}</Text>
-            </Row>
-          </Link>
-
-          <div style={{ width: '100%', height: '100%' }}>
-            {loadingCode ? (
-              <Loading>加载代码中...</Loading>
-            ) : (
-              <Editor
-                defaultLanguage="javascript"
-                defaultValue={defaultCode}
-                value={code}
-                onMount={handleEditorDidMount}
-                className="worker-editor-monaco"
-              />
-            )}
-          </div>
-
-          <div className="footer">
-            <Text size="$sm">
-              上次部署时间:&nbsp;&nbsp;
-              {finalDeployment ? finalDeployment.updatedAt : '还未部署'}
-            </Text>
-            <Button
-              size={'xs'}
-              disabled={saving}
-              onPress={() => saveAndDeploy(id, editorRef.current.getValue())}
-            >
-              {saving ? (
-                <Loading color="currentColor" size="sm" />
+          <div className={S.leftSection}>
+            <div className={S.header}>
+              <Link href={`/workers/detail/${encodeURIComponent(id)}`}>
+                <Row align="center">
+                  <Text color="primary" css={{ cursor: 'pointer' }}>
+                    &#8592;{name}&nbsp;
+                  </Text>
+                  <Text>{'/ development'}</Text>
+                </Row>
+              </Link>
+            </div>
+            <div className={S.content}>
+              {loadingCode ? (
+                <Loading>加载代码中...</Loading>
               ) : (
-                '保存并部署'
+                <Editor
+                  defaultLanguage="javascript"
+                  defaultValue={defaultCode}
+                  value={code}
+                  onMount={handleEditorDidMount}
+                  className="worker-editor-monaco"
+                />
               )}
-            </Button>
+            </div>
+
+            <div className={S.footer}>
+              <span>
+                上次部署时间:&nbsp;&nbsp;
+                {finalDeployment ? finalDeployment.updatedAt : '还未部署'}
+              </span>
+              <Button
+                size={'xs'}
+                disabled={saving}
+                onPress={() => saveAndDeploy(id, editorRef.current.getValue())}
+              >
+                {saving ? (
+                  <Loading color="currentColor" size="sm" />
+                ) : (
+                  '保存并部署'
+                )}
+              </Button>
+            </div>
           </div>
         </Section>
 
