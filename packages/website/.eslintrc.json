@@ -1,0 +1,10 @@
+{
+  "extends": [
+    "plugin:react-hooks/recommended",
+    "plugin:@next/next/recommended"
+  ],
+  "rules": {
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn"
+  }
+}

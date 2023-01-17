@@ -1,16 +1,18 @@
-import { useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import { Row, Col, Text, Button, Loading } from '@nextui-org/react';
+import { Row, Text, Button, Loading } from '@nextui-org/react';
 import { notification } from 'antd';
-import Editor, { editor } from 'components/monaco-editor';
 import { useRequest } from 'ahooks';
 import { Deployment, Func } from '@mini_faas_worker/types';
-import { Tabs } from 'antd';
+import { Container, Section, Bar } from 'react-simple-resizer';
 
 import Layout from 'components/layout';
+import { Tabs } from 'components/tabs';
+import Editor, { editor } from 'components/monaco-editor';
 import HttpTriggerRunner from 'components/workers/detail/playground/HttpTriggerRunner';
 import Preview from 'components/workers/detail/playground/Preview';
+import Devtools from 'components/devtools';
 import { getData, postFormData } from 'libs/fetchData';
 
 interface Props {
@@ -47,6 +49,9 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
 
   const editorRef = useRef<editor.IStandaloneCodeEditor>(null);
 
+  const [disableDevtoolsInteraction, setDisableDevtoolsInteraction] =
+    useState(false);
+
   function handleEditorDidMount(editor, monaco) {
     editorRef.current = editor;
   }
@@ -79,19 +84,32 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
     if (currentDeployment) {
       getDeploymentCode(currentDeployment.id);
     }
-  }, [currentDeployment]);
+  }, [currentDeployment, getDeploymentCode]);
 
   const onChange = (key: string) => {
     console.log(key);
   };
 
+  const containerStyle = {
+    height: '100%',
+    width: '100%',
+  };
+
+  const resizerBarStyle = {
+    backgroundColor: 'rgb(182, 182, 182)',
+    cursor: 'col-resize',
+    marginLeft: '5px',
+    marginRight: '5px',
+  };
+
+  const onDevtoolsResizerStatusChange = useCallback(isActive => {
+    setDisableDevtoolsInteraction(isActive);
+  }, []);
+
   return (
     <Layout>
-      <Col
-        className="worker-editor"
-        css={{ height: '100%', display: 'flex', flexDirection: 'column' }}
-      >
-        <Row>
+      <Container style={containerStyle}>
+        <Section minSize={100}>
           <Link href={`/workers/detail/${encodeURIComponent(id)}`}>
             <Row align="center">
               <Text color="primary" css={{ cursor: 'pointer' }}>
@@ -100,25 +118,47 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
               <Text>{'/ development'}</Text>
             </Row>
           </Link>
-        </Row>
-        <Row css={{ flexGrow: 1, overflow: 'hidden' }}>
-          <Row justify="center" css={{ height: '100%' }}>
-            <section style={{ width: '50%', height: '100%' }}>
-              {loadingCode ? (
-                <Loading>加载代码中...</Loading>
+
+          <div style={{ width: '100%', height: '100%' }}>
+            {loadingCode ? (
+              <Loading>加载代码中...</Loading>
+            ) : (
+              <Editor
+                defaultLanguage="javascript"
+                defaultValue={defaultCode}
+                value={code}
+                onMount={handleEditorDidMount}
+                className="worker-editor-monaco"
+              />
+            )}
+          </div>
+
+          <div className="footer">
+            <Text size="$sm">
+              上次部署时间:&nbsp;&nbsp;
+              {finalDeployment ? finalDeployment.updatedAt : '还未部署'}
+            </Text>
+            <Button
+              size={'xs'}
+              disabled={saving}
+              onPress={() => saveAndDeploy(id, editorRef.current.getValue())}
+            >
+              {saving ? (
+                <Loading color="currentColor" size="sm" />
               ) : (
-                <Editor
-                  defaultLanguage="javascript"
-                  defaultValue={defaultCode}
-                  value={code}
-                  onMount={handleEditorDidMount}
-                  className="worker-editor-monaco"
-                />
+                '保存并部署'
               )}
-            </section>
-            <Col css={{ height: '100%', width: '50%', overflowY: 'auto' }}>
+            </Button>
+          </div>
+        </Section>
+
+        <Bar size={1} style={resizerBarStyle} />
+
+        <Section>
+          <Container vertical={true} style={{ height: '100%', width: '100%' }}>
+            <Section>
               <Tabs
-                style={{ width: '100%', height: '100%' }}
+                style={{ width: '100%', height: '100%', overflow: 'hidden' }}
                 defaultActiveKey="1"
                 onChange={onChange}
                 items={[
@@ -136,31 +176,26 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
                   },
                 ]}
               />
-            </Col>
-          </Row>
-        </Row>
+            </Section>
 
-        <Row
-          justify="space-between"
-          css={{
-            backgroundColor: 'rgb(242, 242, 242)',
-            borderTop: '1px solid rgb(182, 182, 182)',
-            padding: '$4',
-          }}
-        >
-          <Text size="$sm">
-            上次部署时间:&nbsp;&nbsp;
-            {finalDeployment ? finalDeployment.updatedAt : '还未部署'}
-          </Text>
-          <Button
-            size={'xs'}
-            disabled={saving}
-            onPress={() => saveAndDeploy(id, editorRef.current.getValue())}
-          >
-            {saving ? <Loading color="currentColor" size="sm" /> : '保存并部署'}
-          </Button>
-        </Row>
-      </Col>
+            <Bar
+              size={1}
+              style={{
+                backgroundColor: 'rgb(182, 182, 182)',
+              }}
+              onStatusChanged={onDevtoolsResizerStatusChange}
+            />
+
+            <Section
+              minSize={100}
+              defaultSize={200}
+              style={{ overflow: 'initial' }}
+            >
+              <Devtools disableInteraction={disableDevtoolsInteraction} />
+            </Section>
+          </Container>
+        </Section>
+      </Container>
     </Layout>
   );
 };

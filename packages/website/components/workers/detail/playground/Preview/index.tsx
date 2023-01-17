@@ -35,9 +35,9 @@ export default function Preview({ deployment }: IProps) {
   return deployment ? (
     <Col
       css={{
+        height: '100%',
         display: 'flex',
         flexDirection: 'column',
-        minHeight: '600px',
       }}
     >
       <Row align="center">
@@ -60,7 +60,7 @@ export default function Preview({ deployment }: IProps) {
           ref={iframeRef}
           src={triggerUrlInputRef.current}
           width="100%"
-          height="500px"
+          height="100%"
           frameBorder={0}
         ></iframe>
       </Row>

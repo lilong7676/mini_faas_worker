@@ -1,0 +1,10 @@
+
+.lllTabs {
+  :global(.ant-tabs-content) {
+    height: 100%;
+
+    :global(.ant-tabs-tabpane) {
+      height: 100%;
+    }
+  }
+}

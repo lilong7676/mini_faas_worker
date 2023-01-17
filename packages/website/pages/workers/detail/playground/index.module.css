@@ -1,0 +1,15 @@
+.pane {
+  height: 50%;
+}
+
+.playground {
+}
+
+.footer {
+  height: ;
+}
+
+.full-content-height :global {
+  color: red;
+
+}
