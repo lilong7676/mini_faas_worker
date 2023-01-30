@@ -7,12 +7,14 @@
     "dist"
   ],
   "bin": {
-    "serverless": "dist/index.js"
+    "serverless": "dist/run.js"
   },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "watch": "tsup src/index.ts --format=esm --dts --watch",
-    "dev": "concurrently \"npm:watch\" \"nodemon dist/index.js\"",
-    "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "watch": "tsup src/index.ts src/run.ts --format=esm --dts --watch",
+    "dev": "tsup src/index.ts src/run.ts --format=esm --dts --watch --onSuccess \"node dist/run.js\"",
+    "build": "tsc",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
   },
@@ -35,8 +37,6 @@
     "winston-transport": "^4.5.0"
   },
   "devDependencies": {
-    "@mini_faas_worker/types": "workspace:^",
-    "nodemon": "^2.0.20",
-    "tsx": "^3.11.0"
+    "@mini_faas_worker/types": "workspace:^"
   }
 }

@@ -14,6 +14,7 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
-    "mrmime": "^1.0.1"
+    "mrmime": "^1.0.1",
+    "@mini_faas_worker/types": "workspace:^"
   }
 }

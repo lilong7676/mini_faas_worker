@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-09 11:26:49
+ * @Last Modified time: 2023-01-30 11:07:06
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -16,7 +16,7 @@ import {
   getDeploymentFromRequest,
   getDeploymentCode,
 } from './utils/deployments';
-import { onFuncLog } from './utils/logger/funcLog';
+import { getOnFuncLogHandler } from './utils/logger/funcLog';
 
 const fastify = Fastify({
   logger: true,
@@ -26,6 +26,10 @@ export default async function startServer(port: number) {
   await fastify.register(cors);
 
   const routeHandler = async (request: FastifyRequest, reply: FastifyReply) => {
+    const debuggerSessionId = request.headers['x-debugger-session-id'] as
+      | string
+      | undefined;
+
     const deployment = getDeploymentFromRequest(request);
 
     console.log('getDeploymentFromRequest', deployment);
@@ -48,6 +52,7 @@ export default async function startServer(port: number) {
     };
 
     // invoke function through SDK
+    const onFuncLog = getOnFuncLogHandler(debuggerSessionId);
     const response = await ClientSDK.invokeFunctionWithCode(
       deployment,
       code,

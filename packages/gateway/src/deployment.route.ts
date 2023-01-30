@@ -5,6 +5,10 @@ import { pipeline } from 'node:stream';
 import fs from 'node:fs';
 import path from 'node:path';
 import { PrismaClient, Deployment } from '@prisma/client';
+import {
+  GatewayDeployEventParams,
+  GatewayEventEnum,
+} from '@mini_faas_worker/common';
 
 const OSSPath = '.fakeOSS';
 interface IBody_CreateFunction {
@@ -122,7 +126,12 @@ export default async function deploymentRoutes(
         });
 
         // 通知 serverless 服务有新部署
-        await redis.publish('deploy', JSON.stringify(deploymentResult));
+        const deploymentRes =
+          deploymentResult as unknown as GatewayDeployEventParams;
+        await redis.publish(
+          GatewayEventEnum.DeployEvent,
+          JSON.stringify(deploymentRes)
+        );
 
         return deploymentResult;
       }

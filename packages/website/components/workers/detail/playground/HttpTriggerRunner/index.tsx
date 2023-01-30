@@ -7,6 +7,7 @@ import { Deployment } from '@mini_faas_worker/types';
 
 interface IProps {
   deployment: Deployment;
+  debuggerSessionId: string;
 }
 
 const menuItems = [
@@ -20,7 +21,10 @@ const menuItems = [
   },
 ];
 
-export default function HttpTriggerRunner({ deployment }: IProps) {
+export default function HttpTriggerRunner({
+  deployment,
+  debuggerSessionId,
+}: IProps) {
   const { id: deploymentId } = deployment || {};
   const defaultTriggerUrl = `http://localhost:3006/${deploymentId}`;
 
@@ -41,6 +45,9 @@ export default function HttpTriggerRunner({ deployment }: IProps) {
   const runHttpTrigger = async () => {
     const resp = await fetch(triggerUrlInputRef.current, {
       method: httpMethod,
+      headers: {
+        'X-debugger-session-id': debuggerSessionId,
+      },
     });
     const result = await resp.text();
     setRespResult(result);

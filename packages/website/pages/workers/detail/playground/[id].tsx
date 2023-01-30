@@ -19,10 +19,15 @@ import S from './index.module.scss';
 
 interface Props {
   funcDetail: Func;
+  debuggerSessionId: string;
 }
 
 async function getFunctionDetail(funcId: string) {
   return getData('/functionDetail', { id: funcId });
+}
+
+async function getDebuggerSessionId(deploymentId: string) {
+  return getData('/getDebuggerSession', { deploymentId });
 }
 
 async function saveAndDeployFunction(funcId: string, code: string) {
@@ -45,7 +50,10 @@ export async function handler(request) {
 }
 `;
 
-const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
+const WorkerPlayground: NextPage<Props> = ({
+  funcDetail,
+  debuggerSessionId,
+}) => {
   const { id, name, deployments, domains } = funcDetail;
   const currentDeployment = deployments[0];
 
@@ -171,7 +179,10 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
                     label: `HTTP`,
                     key: '1',
                     children: (
-                      <HttpTriggerRunner deployment={finalDeployment} />
+                      <HttpTriggerRunner
+                        deployment={finalDeployment}
+                        debuggerSessionId={debuggerSessionId}
+                      />
                     ),
                   },
                   {
@@ -196,7 +207,10 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
               defaultSize={200}
               style={{ overflow: 'initial' }}
             >
-              <Devtools disableInteraction={disableDevtoolsInteraction} />
+              <Devtools
+                debuggerSessionId={debuggerSessionId}
+                disableInteraction={disableDevtoolsInteraction}
+              />
             </Section>
           </Container>
         </Section>
@@ -207,8 +221,17 @@ const WorkerPlayground: NextPage<Props> = ({ funcDetail }) => {
 
 WorkerPlayground.getInitialProps = async ({ query }) => {
   const funcId = query.id as string;
-  const funcDetail = await getFunctionDetail(funcId);
-  return { funcDetail };
+  const funcDetail = (await getFunctionDetail(funcId)) as Func;
+
+  let debuggerSessionId = '';
+  if (funcDetail.deployments.length > 0) {
+    const debuggerSession = await getDebuggerSessionId(
+      funcDetail.deployments[0].id
+    );
+    debuggerSessionId = debuggerSession.debuggerSessionId;
+  }
+
+  return { funcDetail, debuggerSessionId };
 };
 
 export default WorkerPlayground;

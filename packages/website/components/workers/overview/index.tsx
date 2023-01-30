@@ -24,9 +24,12 @@ export default function WorkersOverview() {
   const { data, error, loading } = useRequest<Func[], undefined>(listFunction);
   const router = useRouter();
 
-  const pushToWorkerDetail = useCallback((func: Func) => {
-    router.push(`/workers/detail/${func.id}`);
-  }, []);
+  const pushToWorkerDetail = useCallback(
+    (func: Func) => {
+      router.push(`/workers/detail/${func.id}`);
+    },
+    [router]
+  );
 
   return (
     <Container

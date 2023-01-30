@@ -1,17 +1,8 @@
 /*
- * 采用 nodejs cluster 模式监听函数的部署与触发执行
+ * serverless main
  * @Author: lilonglong
- * @Date: 2022-10-20 22:03:18
+ * @Date: 2023-01-28 23:09:56
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-10-28 11:22:25
+ * @Last Modified time: 2023-01-29 11:30:16
  */
-
-import cluster from 'node:cluster';
-import master from './cluster/master';
-import worker from './cluster/worker';
-
-if (cluster.isPrimary) {
-  master();
-} else {
-  worker();
-}
+export {};

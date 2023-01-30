@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-10-28 14:28:31
+ * @Last Modified time: 2023-01-29 14:21:09
  */
 
 import cluster from 'node:cluster';
@@ -12,14 +12,18 @@ import os from 'node:os';
 import Redis from 'ioredis';
 import fetch from 'node-fetch';
 import { Deployment } from '@mini_faas_worker/types';
+import {
+  GatewayEventEnum,
+  GatewayDeployEventParams,
+} from '@mini_faas_worker/common';
 
 import { IS_DEV } from 'src/utils/constants';
 
-function initRedisPubsub() {
-  const redis = new Redis();
+export const redis = new Redis();
 
+function initRedisPubsub() {
   // 订阅 redis 消息
-  redis.subscribe('deploy', (err, count) => {
+  redis.subscribe(GatewayEventEnum.DeployEvent, (err, count) => {
     if (err) {
       console.error('redis pubsub error', err);
     }
@@ -27,8 +31,8 @@ function initRedisPubsub() {
 
   redis.on('message', (channel, message) => {
     console.log(`redis: Received ${message} from ${channel}`);
-    if (channel === 'deploy') {
-      const deployment: Deployment = JSON.parse(message);
+    if (channel === GatewayEventEnum.DeployEvent) {
+      const deployment: GatewayDeployEventParams = JSON.parse(message);
       // 更新部署信息
       for (const id in cluster.workers) {
         cluster.workers[id]?.send({
@@ -69,6 +73,7 @@ export default async function master() {
     worker.on('message', ({ cmd }) => {
       if (cmd === 'ok') {
         console.log('worker child started!');
+        // 当 worker 线程已就绪，则发送部署信息给 worker
         worker.send({ msg: 'deployments', data: allDeployments });
       }
     });
