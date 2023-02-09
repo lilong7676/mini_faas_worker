@@ -9,8 +9,8 @@
     "dist"
   ],
   "scripts": {
-    "dev": "tsup src/index.ts --format=esm --dts --watch",
-    "build": "tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "dev": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
+    "build": "rimraf ./dist && tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
   },
