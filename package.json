@@ -14,7 +14,10 @@
     "build": "turbo run build --continue",
     "commit": "cz",
     "commitlint": "commitlint",
-    "lint-staged": "lint-staged"
+    "lint-staged": "lint-staged",
+    "init:front_end": "cd devtools && rm -rf devtools-frontend && gclient sync --with_branch_heads --verbose",
+    "dev:front_end": "cd devtools/devtools-frontend && gn gen out/Default --args=\"is_debug=true\" && autoninja -C out/Default && gulp copy:dev",
+    "build:front_end": "cd devtools/devtools-frontend && gn gen out/Default --args=\"is_debug=false\" && autoninja -C out/Default && gulp copy:release"
   },
   "packageManager": "pnpm@7.3.0",
   "engines": {

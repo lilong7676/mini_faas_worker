@@ -203,3 +203,8 @@ yalc.lock
 .turbo/
 
 .fakeOSS
+
+# devtools
+devtools/.cipd
+devtools/devtools-frontend
+devtools/.gclient_entries
