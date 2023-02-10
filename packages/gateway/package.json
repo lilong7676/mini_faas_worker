@@ -29,6 +29,7 @@
   "dependencies": {
     "@fastify/cors": "^8.1.1",
     "@fastify/multipart": "^7.3.0",
+    "@fastify/static": "^6.8.0",
     "@fastify/websocket": "^7.1.2",
     "@mini_faas_worker/runtime": "workspace:^",
     "@mini_faas_worker/serverless": "workspace:^",

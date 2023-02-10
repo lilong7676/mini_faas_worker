@@ -1,9 +1,15 @@
 #### 请确保已经安装 depot_tools，否则 devtools frontend 无法构建成功的哦
 ```
 git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
-cd depot_tools
 
-# 使用旧版本，否则可能会报下面的错误
+# 将其添加到本机环境变量中
+export PATH=$PATH:/path/to/depot_tools
+
+# 使环境变量修改立即生效
+source ~/.bash_profile
+
+cd depot_tools
+# 强制使用旧版本，否则可能会报下面的错误
 git reset --hard 138bff28
 
 # 关闭 depot_tools 的自动更新
