@@ -16,6 +16,19 @@ git reset --hard 138bff28
 export DEPOT_TOOLS_UPDATE=0
 ```
 
+#### 然后进行构建操作
+
+```
+# 初始化 devtools front_end 仓库
+pnpm init:front_end
+
+# 构建 debug 版本
+pnpm dev:front_end
+
+# 构建 release 版本
+pnpm build:front_end
+```
+
 
 ##### 执行 npm run build:font_end 时可能的报错，解决方式在上面👆：
 ```
