@@ -6,8 +6,9 @@ import multipart from '@fastify/multipart';
 import ws from '@fastify/websocket';
 import FastifyStatic from '@fastify/static';
 import { PrismaClient } from '@prisma/client';
+import { startDebuggerService } from '@mini_faas_worker/debugger';
+
 import deploymentRoutes from './deployment.route';
-import debuggerSerivice from './debugger-service';
 
 import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
@@ -24,7 +25,7 @@ fastify.register(ws, { options: { maxPayload: 1048576 } });
 fastify.register(multipart);
 
 fastify.register(deploymentRoutes, { redis, prisma });
-fastify.register(debuggerSerivice, { prisma });
+fastify.register(startDebuggerService);
 
 /**
  * serve devtools front_end 静态文件

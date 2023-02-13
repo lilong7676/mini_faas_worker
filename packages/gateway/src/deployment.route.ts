@@ -160,4 +160,20 @@ export default async function deploymentRoutes(
       return { code };
     }
   );
+
+  /**
+   * findDeploymentById
+   */
+  fastify.get<{ Querystring: { deploymentId: string } }>(
+    '/findDeploymentById',
+    async request => {
+      const { deploymentId } = request.query;
+      const deployment = await prisma.deployment.findUniqueOrThrow({
+        where: {
+          id: deploymentId,
+        },
+      });
+      return deployment;
+    }
+  );
 }

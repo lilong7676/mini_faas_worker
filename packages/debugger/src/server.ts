@@ -3,18 +3,19 @@
  * @Author: lilonglong
  * @Date: 2023-01-17 23:26:39
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-01-30 11:46:06
+ * @Last Modified time: 2023-02-13 11:56:34
  */
-import { FastifyInstance } from 'fastify';
-import { SocketStream } from '@fastify/websocket';
-import Protocol from 'devtools-protocol';
+import type { FastifyInstance } from 'fastify';
+import type { SocketStream } from '@fastify/websocket';
+import type Protocol from 'devtools-protocol';
 import Redis from 'ioredis';
 import {
   ServerlessEventEnum,
   ServerlessFuncLogEventParams,
 } from '@mini_faas_worker/common';
-import { PrismaClient } from '@prisma/client';
+import { Deployment } from '@mini_faas_worker/types';
 import { v4 as uuidv4 } from 'uuid';
+import fetch from 'node-fetch';
 
 // FIXME: 临时存储 deploymentId 与 debuggerId 的映射关系
 const debuggerIdDeploymentIdMap = new Map<string, string>();
@@ -126,9 +127,8 @@ function initRedisPubsub() {
  * @param {FastifyInstance} fastify
  * @param param1
  */
-export default async function debuggerSerivice(
-  fastify: FastifyInstance,
-  { prisma }: { prisma: PrismaClient }
+export default async function startDebuggerSeriviceServer(
+  fastify: FastifyInstance
 ) {
   // 初始化 redis 监听
   initRedisPubsub();
@@ -142,6 +142,8 @@ export default async function debuggerSerivice(
       websocket: true,
     },
     (connection, req) => {
+      console.log('--------req.params', req.params);
+
       // 拿到 debuggerSessionId
       const { debuggerSessionId } = req.params as { debuggerSessionId: string };
       if (!debuggerSessionId) {
@@ -189,11 +191,13 @@ export default async function debuggerSerivice(
         query: { deploymentId },
       } = request;
 
-      const deployment = await prisma.deployment.findUniqueOrThrow({
-        where: {
-          id: deploymentId,
-        },
-      });
+      const deployment = await fetch(
+        `http://localhost:3005/findDeploymentById?deploymentId=${deploymentId}`,
+        {
+          method: 'GET',
+        }
+      ).then(res => res.json as unknown as Deployment);
+
       const debuggerSessionId = uuidv4();
       // FIXME 临时方案
       debuggerIdDeploymentIdMap.set(debuggerSessionId, deployment.id);
