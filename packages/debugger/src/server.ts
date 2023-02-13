@@ -3,83 +3,33 @@
  * @Author: lilonglong
  * @Date: 2023-01-17 23:26:39
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-13 11:56:34
+ * @Last Modified time: 2023-02-13 16:39:33
  */
 import type { FastifyInstance } from 'fastify';
 import type { SocketStream } from '@fastify/websocket';
-import type Protocol from 'devtools-protocol';
 import Redis from 'ioredis';
 import {
   ServerlessEventEnum,
   ServerlessFuncLogEventParams,
+  DevtoolsClientRequest,
+  DebuggerEventEnum,
+  DebuggerCDPMessageNeedProcessParams,
+  ServerlessCDPProcessedResultParams,
 } from '@mini_faas_worker/common';
 import { Deployment } from '@mini_faas_worker/types';
 import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
 
-// FIXME: 临时存储 deploymentId 与 debuggerId 的映射关系
+import { generateConsoleApiCalledEvent } from './utils/consoleApiCalledEvent';
+
+// 临时方案，建立 debuggerSessionId <--> deploymentId 的映射关系
 const debuggerIdDeploymentIdMap = new Map<string, string>();
+
+// 临时方案，建立 debuggerSessionId <--> socketConnection 的映射关系
 const debuggerIdSocketMap = new Map<string, SocketStream>();
-
-interface DevtoolsClientRequest<T = any> {
-  id: number;
-  method: string;
-  params: T;
-}
-
-interface DebuggerReponse<T = any> {
-  id: number;
-  result: T;
-}
 
 interface IQuery_DeploymentDetail {
   deploymentId: string;
-}
-
-// temp mock
-function generateConsoleApiCalledEvent(logLevel: string, logArgs: any[]) {
-  const consoleType =
-    logLevel as unknown as Protocol.Runtime.ConsoleAPICalledEventType;
-
-  const argsArr = logArgs.map(args => {
-    const type = typeof args;
-
-    const obj: Protocol.Runtime.RemoteObject = {
-      type,
-      value: args,
-    };
-    if (type === 'number') {
-      obj.description = args.toString();
-    }
-    return obj;
-  });
-
-  const event: Protocol.Runtime.ConsoleAPICalledEvent = {
-    type: consoleType,
-    args: argsArr,
-    // args: [
-    //   { type: 'string', value: 'count' },
-    //   { type: 'number', value: 0, description: '0' },
-    // ],
-    executionContextId: 1,
-    timestamp: Date.now(),
-    // stackTrace: {
-    //   callFrames: [
-    //     {
-    //       functionName: '',
-    //       scriptId: '79',
-    //       url: 'file:///Users/lilonglong/Desktop/long_git/chrome-devtools-analysis/for-inspect.js',
-    //       lineNumber: 1,
-    //       columnNumber: 8,
-    //     },
-    //   ],
-    // },
-  };
-
-  return {
-    method: 'Runtime.consoleAPICalled',
-    params: event,
-  };
 }
 
 /**
@@ -88,16 +38,19 @@ function generateConsoleApiCalledEvent(logLevel: string, logArgs: any[]) {
  */
 function initRedisPubsub() {
   const redis = new Redis();
-  redis.subscribe(ServerlessEventEnum.FuncLogEvent, (err, count) => {
-    if (err) {
-      console.error('redis pubsub error', err);
+  redis.subscribe(
+    ServerlessEventEnum.FuncLogEvent,
+    ServerlessEventEnum.CDPProcessedResult,
+    (err, count) => {
+      if (err) {
+        console.error('redis pubsub error', err);
+      }
     }
-  });
+  );
 
   redis.on('message', (channel, message) => {
     console.log(`gateway redis: Received ${message} from ${channel}`);
     try {
-      /** serverless 函数打印日志事件 */
       if (channel === ServerlessEventEnum.FuncLogEvent) {
         const {
           debuggerSessionId,
@@ -115,11 +68,21 @@ function initRedisPubsub() {
             socketConnection.socket.send(JSON.stringify(consoleEventCDP));
           }
         }
+      } else if (channel === ServerlessEventEnum.CDPProcessedResult) {
+        const {
+          debuggerSessionId,
+          result,
+        }: ServerlessCDPProcessedResultParams = JSON.parse(message);
+        const socketConnection = debuggerIdSocketMap.get(debuggerSessionId);
+        if (socketConnection) {
+          socketConnection.socket.send(JSON.stringify(result));
+        }
       }
     } catch (error) {
       console.error('gateway debugger-service error:', error);
     }
   });
+  return redis.duplicate();
 }
 
 /**
@@ -131,7 +94,7 @@ export default async function startDebuggerSeriviceServer(
   fastify: FastifyInstance
 ) {
   // 初始化 redis 监听
-  initRedisPubsub();
+  const redis = initRedisPubsub();
 
   /**
    * devtools websocket 服务
@@ -142,8 +105,6 @@ export default async function startDebuggerSeriviceServer(
       websocket: true,
     },
     (connection, req) => {
-      console.log('--------req.params', req.params);
-
       // 拿到 debuggerSessionId
       const { debuggerSessionId } = req.params as { debuggerSessionId: string };
       if (!debuggerSessionId) {
@@ -153,17 +114,20 @@ export default async function startDebuggerSeriviceServer(
       debuggerIdSocketMap.set(debuggerSessionId, connection);
 
       connection.socket.on('message', async message => {
-        console.log('gateway debbuger receive message:', message.toString());
+        console.log('debbuger service receive message:', message.toString());
         try {
           const messageObj = JSON.parse(
             message.toString()
           ) as DevtoolsClientRequest;
-          // 直接返回空数据即可
-          const resp: DebuggerReponse = {
-            id: messageObj.id,
-            result: {},
+          const messageForRedis: DebuggerCDPMessageNeedProcessParams = {
+            debuggerSessionId,
+            cdp: messageObj,
           };
-          connection.socket.send(JSON.stringify(resp));
+
+          redis.publish(
+            DebuggerEventEnum.CDPMessageNeedProcess,
+            JSON.stringify(messageForRedis)
+          );
         } catch (error) {
           console.error(error);
           // 报错直接关闭 socket
@@ -199,7 +163,6 @@ export default async function startDebuggerSeriviceServer(
       ).then(res => res.json as unknown as Deployment);
 
       const debuggerSessionId = uuidv4();
-      // FIXME 临时方案
       debuggerIdDeploymentIdMap.set(debuggerSessionId, deployment.id);
       return { debuggerSessionId };
     }

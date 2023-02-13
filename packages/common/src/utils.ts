@@ -33,23 +33,23 @@ export function isEl(val: any): boolean {
   return !!(val && val.nodeType === 1);
 }
 
-export function isErr(val: any): boolean {
+export function isErr(val: unknown): val is Error {
   return Object.prototype.toString.call(val) === '[object Error]';
 }
 
-export function isMap(val: any): boolean {
+export function isMap(val: unknown): val is Map<unknown, unknown> {
   return Object.prototype.toString.call(val) === '[object Map]';
 }
 
-export function isSet(val: any) {
+export function isSet(val: unknown): val is Set<unknown> {
   return Object.prototype.toString.call(val) === '[object Set]';
 }
 
-export function isRegExp(val: any) {
+export function isRegExp(val: unknown): val is RegExp {
   return Object.prototype.toString.call(val) === '[object RegExp]';
 }
 
-export function isBuffer(val: any) {
+export function isBuffer(val: any): val is Buffer {
   if (val == null) return false;
   if (val._isBuffer) return true;
 
@@ -60,11 +60,11 @@ export function isBuffer(val: any) {
   );
 }
 
-export function isNum(val: any) {
+export function isNum(val: unknown): val is number {
   return Object.prototype.toString.call(val) === '[object Number]';
 }
 
-export function isNaN(val: any) {
+export function isNaN(val: unknown): val is typeof NaN {
   return isNum(val) && val !== +val;
 }
 

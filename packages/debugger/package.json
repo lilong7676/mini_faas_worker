@@ -20,6 +20,7 @@
   "devDependencies": {
     "@fastify/websocket": "^7.1.2",
     "devtools-protocol": "^0.0.1092731",
-    "fastify": "^4.9.2"
+    "fastify": "^4.9.2",
+    "@types/node": "^18.7.1"
   }
 }

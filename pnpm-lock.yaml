@@ -105,6 +105,7 @@ importers:
       '@fastify/websocket': ^7.1.2
       '@mini_faas_worker/common': workspace:^
       '@mini_faas_worker/types': workspace:^
+      '@types/node': ^18.7.1
       devtools-protocol: ^0.0.1092731
       fastify: ^4.9.2
       ioredis: ^5.2.3
@@ -118,6 +119,7 @@ importers:
       uuid: 9.0.0
     devDependencies:
       '@fastify/websocket': 7.1.2
+      '@types/node': 18.7.21
       devtools-protocol: 0.0.1092731
       fastify: 4.9.2
 
