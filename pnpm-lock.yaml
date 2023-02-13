@@ -133,12 +133,15 @@ importers:
       '@mini_faas_worker/debugger': workspace:^
       '@mini_faas_worker/runtime': workspace:^
       '@mini_faas_worker/serverless': workspace:^
+      '@mini_faas_worker/types': workspace:^
       '@prisma/client': ^4.5.0
       '@types/node': ^18.7.1
       '@types/ws': ^8.5.3
       chalk: ^5.0.1
+      devtools-protocol: ^0.0.1092731
       fastify: ^4.9.2
       ioredis: ^5.2.3
+      node-fetch: ^3.2.6
       prisma: ^4.5.0
       tsx: ^3.11.0
       uuid: ^9.0.0
@@ -153,12 +156,15 @@ importers:
       chalk: 5.0.1
       fastify: 4.9.2
       ioredis: 5.2.3
+      node-fetch: 3.2.10
       uuid: 9.0.0
     devDependencies:
       '@mini_faas_worker/common': link:../common
+      '@mini_faas_worker/types': link:../types
       '@prisma/client': 4.5.0_prisma@4.5.0
       '@types/node': 18.7.21
       '@types/ws': 8.5.4
+      devtools-protocol: 0.0.1092731
       prisma: 4.5.0
       tsx: 3.11.0
 

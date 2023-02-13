@@ -6,7 +6,7 @@ import multipart from '@fastify/multipart';
 import ws from '@fastify/websocket';
 import FastifyStatic from '@fastify/static';
 import { PrismaClient } from '@prisma/client';
-import { startDebuggerService } from '@mini_faas_worker/debugger';
+import { startDebuggerService } from './debuggerService';
 
 import deploymentRoutes from './deployment.route';
 
