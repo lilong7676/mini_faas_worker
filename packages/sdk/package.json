@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
+    "build:watch": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
     "build": "rimraf ./dist && tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
@@ -23,12 +23,11 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/runtime": "workspace:^",
     "chalk": "^5.0.1"
   },
   "devDependencies": {
-    "@mini_faas_worker/common": "workspace:^",
-    "@mini_faas_worker/runtime": "workspace:^",
     "@mini_faas_worker/types": "workspace:^"
   }
 }

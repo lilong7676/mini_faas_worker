@@ -31,9 +31,9 @@
     "@fastify/multipart": "^7.3.0",
     "@fastify/static": "^6.8.0",
     "@fastify/websocket": "^7.1.2",
+    "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/runtime": "workspace:^",
     "@mini_faas_worker/serverless": "workspace:^",
-    "@mini_faas_worker/debugger": "workspace:^",
     "chalk": "^5.0.1",
     "fastify": "^4.9.2",
     "ioredis": "^5.2.3",
@@ -41,7 +41,6 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/types": "workspace:^",
     "@prisma/client": "^4.5.0",
     "@types/node": "^18.7.1",

@@ -16,6 +16,14 @@
     "deploy": {
       "dependsOn": ["build", "test", "lint"],
       "outputs": []
+    },
+    "dev": {
+      "dependsOn": [
+        "@mini_faas_worker/common#build",
+        "@mini_faas_worker/runtime#build"
+      ],
+      "cache": false,
+      "persistent": true
     }
   }
 }

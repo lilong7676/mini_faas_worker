@@ -4,7 +4,7 @@
   "description": "a mini faas worker base on V8",
   "main": "index.js",
   "scripts": {
-    "dev": "concurrently -n gateway,serverless,website \"pnpm --filter @mini_faas_worker/gateway dev\" \"pnpm --filter @mini_faas_worker/serverless dev\" \"pnpm --filter @mini_faas_worker/website dev\"",
+    "dev": "turbo run dev",
     "test": "vitest run",
     "test:update": "pnpm test -- -u",
     "test:watch": "vitest",

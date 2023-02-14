@@ -9,7 +9,7 @@
     "dist"
   ],
   "scripts": {
-    "dev": "rimraf ./dist && pnpm build:runtime && tsup src/index.ts --format=esm --dts --watch",
+    "build:watch": "rimraf ./dist && pnpm build:runtime && tsup src/index.ts --format=esm --dts --watch",
     "build": "rimraf ./dist && pnpm build:runtime && tsup src/index.ts --format=esm --dts",
     "build:runtime": "for file in src/runtime/*; do pnpm esbuild $file --outdir=dist/runtime --bundle --format=esm && pnpm tsc $file --target es2015 --moduleResolution node --declaration --emitDeclarationOnly --outDir dist/runtime; done",
     "lint": "eslint --cache --ignore-pattern dist .",
@@ -22,6 +22,7 @@
   "author": "lilong7676@outlook.com",
   "license": "MIT",
   "dependencies": {
+    "@mini_faas_worker/common": "workspace:^",
     "isolated-vm": "^4.4.1"
   },
   "peerDependencies": {
@@ -29,7 +30,6 @@
   },
   "devDependencies": {
     "@types/node": "^17.0.35",
-    "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/types": "workspace:^",
     "tsup": "^6.0.1"
   }
