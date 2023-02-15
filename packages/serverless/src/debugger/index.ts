@@ -20,36 +20,6 @@ const domainsSupported = {
   },
 };
 
-const initRedisPubsub = () => {
-  const redisSub = new Redis();
-  const redisPub = redisSub.duplicate();
-  // 订阅 redis 消息
-  redisSub.subscribe(DebuggerEventEnum.CDPMessageNeedProcess, (err, count) => {
-    if (err) {
-      console.error('redis pubsub error', err);
-    }
-  });
-
-  redisSub.on('message', (channel, message) => {
-    console.log(`redis: Received ${message} from ${channel}`);
-    if (channel === DebuggerEventEnum.CDPMessageNeedProcess) {
-      const { debuggerSessionId, cdp }: DebuggerCDPMessageNeedProcessParams =
-        JSON.parse(message);
-
-      DebuggerSession.processCDPMethod(cdp).then(result => {
-        const resultMsg: ServerlessCDPProcessedResultParams = {
-          debuggerSessionId,
-          result,
-        };
-        redisPub.publish(
-          ServerlessEventEnum.CDPProcessedResult,
-          JSON.stringify(resultMsg)
-        );
-      });
-    }
-  });
-};
-
 export class DebuggerSession {
   private debuggerSessionId?: string;
 
@@ -114,3 +84,33 @@ export class DebuggerSession {
     return resultMsg;
   }
 }
+
+const initRedisPubsub = () => {
+  const redisSub = new Redis();
+  const redisPub = redisSub.duplicate();
+  // 订阅 redis 消息
+  redisSub.subscribe(DebuggerEventEnum.CDPMessageNeedProcess, (err, count) => {
+    if (err) {
+      console.error('redis pubsub error', err);
+    }
+  });
+
+  redisSub.on('message', (channel, message) => {
+    console.log(`redis: Received ${message} from ${channel}`);
+    if (channel === DebuggerEventEnum.CDPMessageNeedProcess) {
+      const { debuggerSessionId, cdp }: DebuggerCDPMessageNeedProcessParams =
+        JSON.parse(message);
+
+      DebuggerSession.processCDPMethod(cdp).then(result => {
+        const resultMsg: ServerlessCDPProcessedResultParams = {
+          debuggerSessionId,
+          result,
+        };
+        redisPub.publish(
+          ServerlessEventEnum.CDPProcessedResult,
+          JSON.stringify(resultMsg)
+        );
+      });
+    }
+  });
+};
