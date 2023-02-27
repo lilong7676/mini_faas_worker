@@ -9,8 +9,8 @@ import {
 } from '@mini_faas_worker/common';
 
 import Redis from 'ioredis';
-import { redis } from 'src/cluster/master';
-import { logger } from 'src/utils/logger';
+import { redis } from '../cluster/master';
+import { logger } from '../utils/logger';
 import * as objectManager from './manager/objectManager';
 import * as Runtime from './domains/runtime';
 

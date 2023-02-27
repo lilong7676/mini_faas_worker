@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-01-29 14:21:09
+ * @Last Modified time: 2023-02-27 18:03:09
  */
 
 import cluster from 'node:cluster';
@@ -17,7 +17,7 @@ import {
   GatewayDeployEventParams,
 } from '@mini_faas_worker/common';
 
-import { IS_DEV } from 'src/utils/constants';
+import { IS_DEV } from '../utils/constants';
 
 export const redis = new Redis();
 

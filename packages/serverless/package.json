@@ -12,9 +12,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "watch": "tsup src/index.ts src/run.ts --format=esm --dts --watch",
-    "dev": "tsup src/index.ts src/run.ts --format=esm --dts --watch --onSuccess \"node dist/run.js\"",
-    "build": "tsc",
+    "dev": "tsx watch src/run.ts",
+    "build": "rimraf ./dist && tsc --build --force --verbose",
+    "start": "node --experimental-specifier-resolution=node ./dist/run.js",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
   },

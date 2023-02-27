@@ -10,7 +10,7 @@
     "mini_faas_worker": "dist/index.js"
   },
   "scripts": {
-    "watch": "tsup src/index.ts --format=esm --watch",
+    "build:watch": "tsup src/index.ts --format=esm --watch",
     "build": "tsup src/index.ts --format=esm --define.process.env.NODE_ENV \\\"production\\\"",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"

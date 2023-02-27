@@ -10,9 +10,9 @@
     "mini_faas_worker": "dist/index.js"
   },
   "scripts": {
-    "watch": "tsup src/index.ts --format=esm --dts --watch",
     "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
-    "build": "pnpm prisma:generate && tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "build": "rimraf ./dist && pnpm prisma:generate && tsc --build --force --verbose",
+    "start": "node --experimental-specifier-resolution=node ./dist",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
@@ -34,7 +34,6 @@
     "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/runtime": "workspace:^",
     "@mini_faas_worker/serverless": "workspace:^",
-    "chalk": "^5.0.1",
     "fastify": "^4.9.2",
     "ioredis": "^5.2.3",
     "node-fetch": "^3.2.6",

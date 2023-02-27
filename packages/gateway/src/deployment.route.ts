@@ -1,4 +1,4 @@
-import { FastifyInstance } from 'fastify';
+import { FastifyInstance, FastifyRequest } from 'fastify';
 import { MultipartValue } from '@fastify/multipart';
 import Redis from 'ioredis';
 import { pipeline } from 'node:stream';
@@ -76,7 +76,7 @@ export default async function deploymentRoutes(
    * 保存并部署函数
    * 先创建部署信息到数据库，根据部署id保存文件到 OSS 上
    */
-  fastify.post('/saveAndDeployFunction', async request => {
+  fastify.post('/saveAndDeployFunction', async (request: FastifyRequest) => {
     const data = await request.file();
     const funcIdField = data?.fields.funcId as MultipartValue<string>;
     const funcId = funcIdField.value;
