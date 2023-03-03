@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2023-01-17 23:26:39
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-13 16:39:33
+ * @Last Modified time: 2023-03-03 10:33:22
  */
 import type { FastifyInstance } from 'fastify';
 import type { SocketStream } from '@fastify/websocket';
@@ -21,6 +21,8 @@ import { v4 as uuidv4 } from 'uuid';
 import fetch from 'node-fetch';
 
 import { generateConsoleApiCalledEvent } from './utils/consoleApiCalledEvent';
+
+import { findDeploymentById } from '../deployment.route';
 
 // 临时方案，建立 debuggerSessionId <--> deploymentId 的映射关系
 const debuggerIdDeploymentIdMap = new Map<string, string>();
@@ -155,12 +157,7 @@ export default async function startDebuggerSeriviceServer(
         query: { deploymentId },
       } = request;
 
-      const deployment = await fetch(
-        `http://localhost:3005/findDeploymentById?deploymentId=${deploymentId}`,
-        {
-          method: 'GET',
-        }
-      ).then(res => res.json as unknown as Deployment);
+      const deployment = await findDeploymentById(deploymentId);
 
       const debuggerSessionId = uuidv4();
       debuggerIdDeploymentIdMap.set(debuggerSessionId, deployment.id);

@@ -3,24 +3,24 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:47
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-27 18:03:22
+ * @Last Modified time: 2023-03-02 11:29:35
  */
 
 import { Deployment } from '@mini_faas_worker/types';
+import { ServerlessPort } from '@mini_faas_worker/common';
 import process from 'node:process';
 import startServer from '../server';
 import { fetchAndSaveOSSFile } from '../utils/oss';
 import { deploymentCache } from '../utils/deployments';
 
-const serverPort = 3006;
-const serverHostUrl = `localhost:${serverPort}`;
+const serverPort = ServerlessPort;
 
 function handleDeployments(deployments: Deployment[]) {
   // 拉取所有部署的函数信息到本地
   Promise.all(
     deployments.map(deployment => {
       const { id } = deployment;
-      const deploymentHost = `${serverHostUrl}/${id}`;
+      const deploymentHost = `/trigger/${id}`;
       // 更新 deploymentCache
       deploymentCache.set(deploymentHost, deployment);
 

@@ -10,6 +10,8 @@ import {
   GatewayEventEnum,
 } from '@mini_faas_worker/common';
 
+import { prisma } from './prisma';
+
 const OSSPath = '.fakeOSS';
 interface IBody_CreateFunction {
   name: string;
@@ -168,12 +170,16 @@ export default async function deploymentRoutes(
     '/findDeploymentById',
     async request => {
       const { deploymentId } = request.query;
-      const deployment = await prisma.deployment.findUniqueOrThrow({
-        where: {
-          id: deploymentId,
-        },
-      });
-      return deployment;
+      return findDeploymentById(deploymentId);
     }
   );
+}
+
+export async function findDeploymentById(deploymentId: string) {
+  const deployment = await prisma.deployment.findUniqueOrThrow({
+    where: {
+      id: deploymentId,
+    },
+  });
+  return deployment;
 }

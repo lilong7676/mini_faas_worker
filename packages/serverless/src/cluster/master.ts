@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-27 18:03:09
+ * @Last Modified time: 2023-03-03 10:39:46
  */
 
 import cluster from 'node:cluster';
@@ -15,6 +15,7 @@ import { Deployment } from '@mini_faas_worker/types';
 import {
   GatewayEventEnum,
   GatewayDeployEventParams,
+  GatewayPort,
 } from '@mini_faas_worker/common';
 
 import { IS_DEV } from '../utils/constants';
@@ -46,8 +47,12 @@ function initRedisPubsub() {
 
 // 拉取所有部署的函数信息
 const getAllDeployments = async function () {
+  const url = IS_DEV
+    ? `http://localhost:${GatewayPort}/listDeployments`
+    : `https://lilong7676.cn/mini_faas_worker/gateway/listDeployments`;
+
   try {
-    const response = await fetch('http://localhost:3005/listDeployments');
+    const response = await fetch(url);
     const allDeployments = (await response.json()) as Deployment[];
     return allDeployments;
   } catch (error) {

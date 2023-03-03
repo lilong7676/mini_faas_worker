@@ -2,14 +2,19 @@ import { Input, Button } from 'antd';
 import React, { useCallback, useEffect, useRef } from 'react';
 import { Row, Col, Spacer, Text } from '@nextui-org/react';
 import { Deployment } from '@mini_faas_worker/types';
+import { ServerlessPort } from '@mini_faas_worker/common';
 
 interface IProps {
   deployment: Deployment;
 }
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 export default function Preview({ deployment }: IProps) {
   const { id: deploymentId } = deployment || {};
-  const defaultTriggerUrl = `http://localhost:3006/${deploymentId}`;
+
+  const defaultTriggerUrl = IS_DEV
+    ? `http://localhost:${ServerlessPort}/trigger/${deploymentId}`
+    : `${window.location.origin}/mini_faas_worker/serverless/trigger/${deploymentId}`; // https://lilong7676.cn/mini_faas_worker/serverless/trigger/${deploymentId}
 
   const triggerUrlInputRef = useRef(defaultTriggerUrl);
 

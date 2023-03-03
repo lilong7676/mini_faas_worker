@@ -12,7 +12,7 @@ export const getDeploymentFromRequest = (request: FastifyRequest) => {
   const { url, protocol } = request;
   const { host } = request.headers; // localhost:port
   const fullUrl = new URL(`${protocol}://${host}${url}`); // http://localhost:port/path?query=*
-  const deploymentHost = `${fullUrl.host}${fullUrl.pathname}`; // localhost:port/path
+  const deploymentHost = fullUrl.pathname;
 
   return deploymentCache.get(deploymentHost);
 };

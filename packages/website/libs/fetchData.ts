@@ -1,6 +1,22 @@
+/*
+ * 简单封装 fetch 常用方法
+ * @Author: lilonglong
+ * @Date: 2022-10-26 22:02:15
+ * @Last Modified by: lilonglong
+ * @Last Modified time: 2023-03-03 11:10:49
+ */
+
+import { GatewayPort } from '@mini_faas_worker/common';
+
+const IS_DEV = process.env.NODE_ENV === 'development';
+
+const baseUrl = IS_DEV
+  ? `http://localhost:${GatewayPort}`
+  : '/mini_faas_worker/gateway';
+
 export async function postData(url = '', data: Record<string, unknown> = {}) {
   // Default options are marked with *
-  const response = await fetch(`http://localhost:3005${url}`, {
+  const response = await fetch(`${baseUrl}${url}`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     // mode: 'no-cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
@@ -21,7 +37,7 @@ export async function postData(url = '', data: Record<string, unknown> = {}) {
 }
 
 export async function postFormData(url = '', data: FormData) {
-  const response = await fetch(`http://localhost:3005${url}`, {
+  const response = await fetch(`${baseUrl}${url}`, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
@@ -36,7 +52,7 @@ export async function postFormData(url = '', data: FormData) {
 
 export async function getData(url = '', query: Record<string, string> = {}) {
   const response = await fetch(
-    `http://localhost:3005${url}?${new URLSearchParams(query)}`,
+    `${baseUrl}${url}?${new URLSearchParams(query)}`,
     {
       method: 'GET', // *GET, POST, PUT, DELETE, etc.
       // mode: 'no-cors', // no-cors, *cors, same-origin

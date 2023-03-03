@@ -1,0 +1,21 @@
+version: '3.0'
+name: mini_faas_worker
+services:
+    compose:
+        restart: always
+        container_name: mini_faas_worker
+        build:
+          context: .
+        ports:
+          - 9100:9100 # website
+          - 9101:9101 # gateway
+          - 9102:9102 # serverless
+        networks: # 自定义网络
+          - my-network
+
+networks:
+  my-network:
+
+volumes:
+  static-content: # 共享这个容器目录
+

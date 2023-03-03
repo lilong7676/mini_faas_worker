@@ -5,7 +5,11 @@ import cors from '@fastify/cors';
 import multipart from '@fastify/multipart';
 import ws from '@fastify/websocket';
 import FastifyStatic from '@fastify/static';
-import { PrismaClient } from '@prisma/client';
+
+import { GatewayPort } from '@mini_faas_worker/common';
+
+import { prisma } from './prisma';
+
 import { startDebuggerService } from './debuggerService';
 
 import deploymentRoutes from './deployment.route';
@@ -14,7 +18,6 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const prisma = new PrismaClient();
 const redis = new Redis();
 
 const fastify: FastifyInstance = Fastify({
@@ -38,7 +41,7 @@ fastify.register(FastifyStatic, {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen({ port: 3005 });
+    await fastify.listen({ port: GatewayPort });
   } catch (err) {
     fastify.log.error(err);
     await prisma.$disconnect();

@@ -198,6 +198,7 @@ importers:
   packages/website:
     specifiers:
       '@ant-design/icons': ^4.7.0
+      '@mini_faas_worker/common': workspace:^
       '@mini_faas_worker/types': workspace:^
       '@monaco-editor/react': ^4.4.6
       '@next/eslint-plugin-next': ^13.1.2
@@ -217,6 +218,7 @@ importers:
       typescript: ^4.3.5
     dependencies:
       '@ant-design/icons': 4.7.0_sfoxds7t5ydpegc3knd667wn6m
+      '@mini_faas_worker/common': link:../common
       '@monaco-editor/react': 4.4.6_5rrpgbvkp3saaogcekwkrw2jia
       '@nextui-org/react': 1.0.0-beta.12_sfoxds7t5ydpegc3knd667wn6m
       ahooks: 3.7.2_react@17.0.2

@@ -4,6 +4,9 @@ import { DownOutlined } from '@ant-design/icons';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Row, Col, Spacer, Text } from '@nextui-org/react';
 import { Deployment } from '@mini_faas_worker/types';
+import { ServerlessPort } from '@mini_faas_worker/common';
+
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 interface IProps {
   deployment: Deployment;
@@ -26,7 +29,9 @@ export default function HttpTriggerRunner({
   debuggerSessionId,
 }: IProps) {
   const { id: deploymentId } = deployment || {};
-  const defaultTriggerUrl = `http://localhost:3006/${deploymentId}`;
+  const defaultTriggerUrl = IS_DEV
+    ? `http://localhost:${ServerlessPort}/trigger/${deploymentId}`
+    : `${window.location.origin}/mini_faas_worker/serverless/trigger/${deploymentId}`; // https://lilong7676.cn/mini_faas_worker/serverless/trigger/${deploymentId}
 
   const triggerUrlInputRef = useRef(defaultTriggerUrl);
 

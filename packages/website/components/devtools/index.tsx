@@ -3,8 +3,10 @@
  * @Author: lilonglong
  * @Date: 2023-01-16 23:09:20
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-10 09:31:03
+ * @Last Modified time: 2023-03-03 11:02:50
  */
+
+import { GatewayPort } from '@mini_faas_worker/common';
 import S from './index.module.scss';
 
 interface IProps {
@@ -12,9 +14,22 @@ interface IProps {
   debuggerSessionId: string;
 }
 
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 export default function Devtools(props: IProps) {
   const { debuggerSessionId, disableInteraction } = props;
-  const url = `http://127.0.0.1:3005/front_end/devtools_app.html?v8only=true&ws=127.0.0.1:3005/debugger/${debuggerSessionId}`;
+
+  const host = IS_DEV
+    ? `http://localhost:${GatewayPort}`
+    : `window.location.origin/mini_faas_worker/gateway`;
+
+  const wsUrl = IS_DEV
+    ? `ws=localhost:${GatewayPort}`
+    : 'wss=lilong7676.cn/mini_faas_worker/gateway';
+
+  const devtoolsPath = `/front_end/devtools_app.html?v8only=true&${wsUrl}/debugger/${debuggerSessionId}`;
+
+  const url = `${host}${devtoolsPath}`;
   return (
     <div className={S.devtools}>
       <iframe src={url} className={S.ui}></iframe>

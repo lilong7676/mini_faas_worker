@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-02-13 14:45:25
+ * @Last Modified time: 2023-03-02 11:26:06
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -71,8 +71,8 @@ export default async function startServer(port: number) {
     reply.status(response.status).headers(response.headers).send(body);
   };
 
-  fastify.get('/*', routeHandler);
-  fastify.post('/*', routeHandler);
+  fastify.get('/trigger/*', routeHandler);
+  fastify.post('/trigger/*', routeHandler);
   fastify.get('/favicon.ico', async (request, reply) => {
     const favicon = await fs.promises.readFile(
       path.join('public', 'favicon.ico')
