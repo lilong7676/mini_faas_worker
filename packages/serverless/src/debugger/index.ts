@@ -28,6 +28,7 @@ export class DebuggerSession {
   constructor(debuggerSessionId?: string) {
     this.debuggerSessionId = debuggerSessionId;
     if (!DebuggerSession.isInited) {
+      DebuggerSession.isInited = true;
       initRedisPubsub();
     }
   }
