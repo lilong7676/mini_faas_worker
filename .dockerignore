@@ -20,3 +20,9 @@ Dockerfile
 .gitignore
 
 **/devtools
+
+tsconfig.tsbuildinfo
+**/.turbo
+**/.fakeOSS
+
+**/.next

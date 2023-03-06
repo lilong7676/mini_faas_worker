@@ -9,7 +9,7 @@
     "build:watch": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
     "build": "rimraf ./dist && tsup src/index.ts --format=esm --dts",
     "lint": "eslint --cache --ignore-pattern dist .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc"
   },
   "author": "lilong7676@outlook.com",
   "license": "MIT",
