@@ -36,7 +36,7 @@ export function isRegExp(val: unknown): val is RegExp {
   return Object.prototype.toString.call(val) === '[object RegExp]';
 }
 
-export function isBuffer(val: any): val is Buffer {
+export function isBuffer(val: any) {
   if (val == null) return false;
   if (val._isBuffer) return true;
 
