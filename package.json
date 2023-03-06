@@ -11,7 +11,7 @@
     "test:watch": "vitest",
     "preinstall": "npx only-allow pnpm",
     "postinstall": "husky install",
-    "clean-install": "rm -rf node_modules && rm -rf ./packages/*/node_modules && pnpm -r i",
+    "clean-install": "rm -rf node_modules && rm -rf ./packages/*/node_modules && pnpm i",
     "build": "turbo run build --continue",
     "commit": "cz",
     "commitlint": "commitlint",
