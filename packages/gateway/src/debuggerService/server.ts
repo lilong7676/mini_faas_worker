@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2023-01-17 23:26:39
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-03 10:33:22
+ * @Last Modified time: 2023-03-07 17:42:26
  */
 import type { FastifyInstance } from 'fastify';
 import type { SocketStream } from '@fastify/websocket';
@@ -15,10 +15,9 @@ import {
   DebuggerEventEnum,
   DebuggerCDPMessageNeedProcessParams,
   ServerlessCDPProcessedResultParams,
+  getRedisConfig,
 } from '@mini_faas_worker/common';
-import { Deployment } from '@mini_faas_worker/types';
 import { v4 as uuidv4 } from 'uuid';
-import fetch from 'node-fetch';
 
 import { generateConsoleApiCalledEvent } from './utils/consoleApiCalledEvent';
 
@@ -39,7 +38,8 @@ interface IQuery_DeploymentDetail {
  * @param {Redis} redis
  */
 function initRedisPubsub() {
-  const redis = new Redis();
+  const redisConfig = getRedisConfig();
+  const redis = new Redis(redisConfig.port, redisConfig.host);
   redis.subscribe(
     ServerlessEventEnum.FuncLogEvent,
     ServerlessEventEnum.CDPProcessedResult,

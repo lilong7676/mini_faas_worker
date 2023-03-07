@@ -6,7 +6,7 @@ import multipart from '@fastify/multipart';
 import ws from '@fastify/websocket';
 import FastifyStatic from '@fastify/static';
 
-import { GatewayPort } from '@mini_faas_worker/common';
+import { GatewayPort, getRedisConfig } from '@mini_faas_worker/common';
 
 import { prisma } from './prisma';
 
@@ -18,7 +18,8 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const redis = new Redis();
+const redisConfig = getRedisConfig();
+const redis = new Redis(redisConfig.port, redisConfig.host);
 
 const fastify: FastifyInstance = Fastify({
   logger: true,

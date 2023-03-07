@@ -6,6 +6,7 @@ import {
   DebuggerEventEnum,
   DebuggerCDPMessageNeedProcessParams,
   DevtoolsClientRequest,
+  getRedisConfig,
 } from '@mini_faas_worker/common';
 
 import Redis from 'ioredis';
@@ -87,7 +88,8 @@ export class DebuggerSession {
 }
 
 const initRedisPubsub = () => {
-  const redisSub = new Redis();
+  const redisConfig = getRedisConfig();
+  const redisSub = new Redis(redisConfig.port, redisConfig.host);
   const redisPub = redisSub.duplicate();
   // 订阅 redis 消息
   redisSub.subscribe(DebuggerEventEnum.CDPMessageNeedProcess, (err, count) => {

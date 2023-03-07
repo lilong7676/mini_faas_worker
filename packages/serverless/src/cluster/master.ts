@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-03 10:39:46
+ * @Last Modified time: 2023-03-07 17:42:49
  */
 
 import cluster from 'node:cluster';
@@ -16,11 +16,12 @@ import {
   GatewayEventEnum,
   GatewayDeployEventParams,
   GatewayPort,
+  getRedisConfig,
 } from '@mini_faas_worker/common';
 
 import { IS_DEV } from '../utils/constants';
-
-export const redis = new Redis();
+const redisConfig = getRedisConfig();
+export const redis = new Redis(redisConfig.port, redisConfig.host);
 
 function initRedisPubsub() {
   // 订阅 redis 消息
