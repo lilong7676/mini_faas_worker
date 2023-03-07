@@ -4,6 +4,6 @@ WORKDIR /usr/local/mini_faas_worker
 
 EXPOSE 9100 9101 9102
 
-RUN npm install -g pnpm@7.3.0 && pnpm i
+RUN npm install -g pnpm@7.3.0 && pnpm i && pnpm build
 
-CMD ["pnpm","start"]
+CMD ["pnpm","start:prod"]

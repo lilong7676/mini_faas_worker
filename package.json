@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "turbo run dev",
     "start": "turbo run start",
+    "start:prod": "concurrently -n gateway,serverless,website \"pnpm --filter @mini_faas_worker/gateway start\" \"pnpm --filter @mini_faas_worker/serverless start\" \"pnpm --filter @mini_faas_worker/website start\"",
     "test": "vitest run",
     "test:update": "pnpm test -- -u",
     "test:watch": "vitest",
@@ -62,6 +63,7 @@
   "dependencies": {
     "@changesets/changelog-github": "^0.4.7",
     "@changesets/cli": "^2.25.0",
+    "cross-env": "^7.0.3",
     "rimraf": "^4.1.2"
   }
 }
