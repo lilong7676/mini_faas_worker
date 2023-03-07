@@ -6,9 +6,6 @@
   "files": [
     "dist"
   ],
-  "bin": {
-    "mini_faas_worker": "dist/index.js"
-  },
   "scripts": {
     "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
     "build": "rimraf ./dist && pnpm prisma:generate && tsc --build --force --verbose",

@@ -200,7 +200,7 @@ importers:
       '@ant-design/icons': ^4.7.0
       '@mini_faas_worker/common': workspace:^
       '@mini_faas_worker/types': workspace:^
-      '@monaco-editor/react': ^4.4.6
+      '@monaco-editor/react': 4.4.6
       '@next/eslint-plugin-next': ^13.1.2
       '@nextui-org/react': 1.0.0-beta.12
       '@types/node': ^16.3.3
@@ -210,6 +210,7 @@ importers:
       classnames: ^2.3.2
       eslint: ^8.16.0
       eslint-plugin-react-hooks: ^4.6.0
+      monaco-editor: 0.34.1
       next: ^12.2.6
       react: 17.0.2
       react-dom: 17.0.2
@@ -224,6 +225,7 @@ importers:
       ahooks: 3.7.2_react@17.0.2
       antd: 4.23.6_sfoxds7t5ydpegc3knd667wn6m
       classnames: 2.3.2
+      monaco-editor: 0.34.1
       next: 12.3.1_3m4n426qa3ihkdntlveitqxryy
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2

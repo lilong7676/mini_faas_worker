@@ -4,6 +4,6 @@ WORKDIR /usr/local/mini_faas_worker
 
 EXPOSE 9100 9101 9102
 
-RUN npm install -g pnpm --registry=https://registry.npm.taobao.org && pnpm i
+RUN npm install -g pnpm@7.3.0 && pnpm i
 
 CMD ["pnpm","start"]
