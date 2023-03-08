@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 14:12:34
+ * @Last Modified time: 2023-03-08 14:31:14
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -73,7 +73,7 @@ export default async function startServer(port: number) {
     reply.status(response.status).headers(response.headers).send(body);
   };
 
-  const prefix = IS_DEV ? '' : '/serverless';
+  const prefix = IS_DEV ? '' : '/mini_faas_worker/serverless';
 
   fastify.get(`${prefix}/trigger/*`, routeHandler);
   fastify.post(`${prefix}/trigger/*`, routeHandler);

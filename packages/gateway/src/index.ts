@@ -34,10 +34,10 @@ fastify.register(multipart);
 fastify.register(deploymentRoutes, {
   redis,
   prisma,
-  prefix: IS_DEV ? undefined : '/gateway',
+  prefix: IS_DEV ? undefined : '/mini_faas_worker/gateway',
 });
 fastify.register(startDebuggerService, {
-  prefix: IS_DEV ? undefined : '/gateway',
+  prefix: IS_DEV ? undefined : '/mini_faas_worker/gateway',
 });
 
 /**
@@ -45,7 +45,7 @@ fastify.register(startDebuggerService, {
  */
 fastify.register(FastifyStatic, {
   root: path.join(__dirname, '../../../public/front_end'),
-  prefix: '/front_end',
+  prefix: `${IS_DEV ? '' : '/mini_faas_worker'}/front_end`,
 });
 
 // Run the server!
