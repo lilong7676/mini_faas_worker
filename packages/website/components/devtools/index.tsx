@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2023-01-16 23:09:20
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-03 17:47:13
+ * @Last Modified time: 2023-03-08 11:05:09
  */
 
 import { GatewayPort } from '@mini_faas_worker/common';
@@ -14,7 +14,7 @@ interface IProps {
   debuggerSessionId: string;
 }
 
-const IS_DEV = process.env.NODE_ENV === 'development';
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 export default function Devtools(props: IProps) {
   const { debuggerSessionId, disableInteraction } = props;

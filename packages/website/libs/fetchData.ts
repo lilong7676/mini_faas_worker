@@ -3,12 +3,12 @@
  * @Author: lilonglong
  * @Date: 2022-10-26 22:02:15
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-03 11:10:49
+ * @Last Modified time: 2023-03-08 11:05:23
  */
 
 import { GatewayPort } from '@mini_faas_worker/common';
 
-const IS_DEV = process.env.NODE_ENV === 'development';
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const baseUrl = IS_DEV
   ? `http://localhost:${GatewayPort}`

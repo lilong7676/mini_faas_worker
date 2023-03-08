@@ -6,8 +6,7 @@ import { Row, Col, Spacer, Text } from '@nextui-org/react';
 import { Deployment } from '@mini_faas_worker/types';
 import { ServerlessPort } from '@mini_faas_worker/common';
 
-const IS_DEV = process.env.NODE_ENV === 'development';
-
+const IS_DEV = process.env.NODE_ENV !== 'production';
 interface IProps {
   deployment: Deployment;
   debuggerSessionId: string;

@@ -46,8 +46,15 @@ async function saveAndDeployFunction(funcId: string, code: string) {
 const defaultCode = `
 // worker
 export async function handler(request) {
-  return {hello: 'world'};
+  const json = JSON.stringify({ hello: 123 });
+
+  console.log({ a: 1, b: { c: 2 } })
+
+  return new Response(json, {
+    headers: { 'content-type': 'application/json' },
+  });
 }
+
 `;
 
 const WorkerPlayground: NextPage<Props> = ({

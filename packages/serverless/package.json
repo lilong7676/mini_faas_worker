@@ -9,7 +9,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "dev": "tsx watch src/run.ts",
+    "dev": "cross-env NODE_ENV=development tsx watch src/run.ts",
     "build": "rimraf ./dist && tsc --build --force --verbose",
     "start": "cross-env NODE_ENV=production node --experimental-specifier-resolution=node ./dist/run.js",
     "lint": "eslint --cache --ignore-pattern dist .",

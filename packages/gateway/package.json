@@ -7,13 +7,15 @@
     "dist"
   ],
   "scripts": {
-    "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
-    "build:prod": "rimraf ./dist && dotenv -e .env.development -- pnpm prisma:generate && tsc --build --force --verbose",
+    "dev": "pnpm prisma:generate && pnpm prisma:db:push && dotenv -e .env.local -- tsx watch src/index.ts",
+    "build:prod": "rimraf ./dist && dotenv -e .env.development -- pnpm prisma:generate:prod && dotenv -e .env.development -- pnpm prisma:db:push:pord && tsc --build --force --verbose",
     "start": "pnpm build:prod && dotenv -e .env.development -- node --experimental-specifier-resolution=node ./dist",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
-    "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
-    "prisma:db:push": "npx prisma db push"
+    "prisma:generate": "dotenv -e .env.local -- npx prisma generate --schema=./src/prisma/schema.prisma",
+    "prisma:db:push": "dotenv -e .env.local -- npx prisma db push",
+    "prisma:generate:prod": "dotenv -e .env.development -- npx prisma generate --schema=./src/prisma/schema.prisma",
+    "prisma:db:push:pord": "dotenv -e .env.development -- npx prisma db push"
   },
   "keywords": [
     "gateway",

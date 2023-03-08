@@ -7,7 +7,7 @@ import { ServerlessPort } from '@mini_faas_worker/common';
 interface IProps {
   deployment: Deployment;
 }
-const IS_DEV = process.env.NODE_ENV === 'development';
+const IS_DEV = process.env.NODE_ENV !== 'production';
 
 export default function Preview({ deployment }: IProps) {
   const { id: deploymentId } = deployment || {};
