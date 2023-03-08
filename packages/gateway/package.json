@@ -8,8 +8,8 @@
   ],
   "scripts": {
     "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
-    "build:prod": "rimraf ./dist && dotenv -e .env.production -- pnpm prisma:generate && tsc --build --force --verbose",
-    "start": "pnpm build:prod && cross-env NODE_ENV=production node --experimental-specifier-resolution=node ./dist",
+    "build:prod": "rimraf ./dist && dotenv -e .env.development -- pnpm prisma:generate && tsc --build --force --verbose",
+    "start": "pnpm build:prod && dotenv -e .env.development -- node --experimental-specifier-resolution=node ./dist",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
     "prisma:generate": "npx prisma generate --schema=./src/prisma/schema.prisma",
