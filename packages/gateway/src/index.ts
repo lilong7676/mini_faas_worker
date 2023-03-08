@@ -51,7 +51,7 @@ fastify.register(FastifyStatic, {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen({ port: GatewayPort });
+    await fastify.listen({ port: GatewayPort, host: '0.0.0.0' });
   } catch (err) {
     fastify.log.error(err);
     await prisma.$disconnect();

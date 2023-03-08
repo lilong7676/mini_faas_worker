@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 14:31:14
+ * @Last Modified time: 2023-03-08 16:47:01
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -89,7 +89,7 @@ export default async function startServer(port: number) {
   });
 
   try {
-    await fastify.listen({ port });
+    await fastify.listen({ port, host: '0.0.0.0' });
   } catch (error) {
     if (error) {
       console.error(error);
