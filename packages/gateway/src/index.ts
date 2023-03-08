@@ -15,6 +15,9 @@ import { startDebuggerService } from './debuggerService';
 import deploymentRoutes from './deployment.route';
 
 import { fileURLToPath } from 'url';
+
+const IS_DEV = process.env.NODE_ENV === 'development';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -28,8 +31,14 @@ fastify.register(cors);
 fastify.register(ws, { options: { maxPayload: 1048576 } });
 fastify.register(multipart);
 
-fastify.register(deploymentRoutes, { redis, prisma });
-fastify.register(startDebuggerService);
+fastify.register(deploymentRoutes, {
+  redis,
+  prisma,
+  prefix: IS_DEV ? undefined : '/gateway',
+});
+fastify.register(startDebuggerService, {
+  prefix: IS_DEV ? undefined : '/gateway',
+});
 
 /**
  * serve devtools front_end 静态文件

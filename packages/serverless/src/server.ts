@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-02 11:26:06
+ * @Last Modified time: 2023-03-08 14:12:34
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -21,6 +21,8 @@ import { DebuggerSession } from './debugger';
 const fastify = Fastify({
   logger: true,
 });
+
+const IS_DEV = process.env.NODE_ENV === 'development';
 
 export default async function startServer(port: number) {
   await fastify.register(cors);
@@ -71,9 +73,11 @@ export default async function startServer(port: number) {
     reply.status(response.status).headers(response.headers).send(body);
   };
 
-  fastify.get('/trigger/*', routeHandler);
-  fastify.post('/trigger/*', routeHandler);
-  fastify.get('/favicon.ico', async (request, reply) => {
+  const prefix = IS_DEV ? '' : '/serverless';
+
+  fastify.get(`${prefix}/trigger/*`, routeHandler);
+  fastify.post(`${prefix}/trigger/*`, routeHandler);
+  fastify.get(`${prefix}/favicon.ico`, async (request, reply) => {
     const favicon = await fs.promises.readFile(
       path.join('public', 'favicon.ico')
     );
