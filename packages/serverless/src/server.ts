@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:47:22
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-02 11:26:06
+ * @Last Modified time: 2023-03-08 11:47:57
  */
 
 import Fastify, { FastifyRequest, FastifyReply } from 'fastify';
@@ -22,7 +22,7 @@ const fastify = Fastify({
   logger: true,
 });
 
-export default async function startServer(port: number) {
+export default async function startServer(port: number, host: string) {
   await fastify.register(cors);
 
   const routeHandler = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -85,7 +85,7 @@ export default async function startServer(port: number) {
   });
 
   try {
-    await fastify.listen({ port });
+    await fastify.listen({ port, host });
   } catch (error) {
     if (error) {
       console.error(error);
