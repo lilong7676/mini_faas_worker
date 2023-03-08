@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-07 17:42:49
+ * @Last Modified time: 2023-03-08 13:03:08
  */
 
 import cluster from 'node:cluster';
@@ -51,6 +51,7 @@ const getAllDeployments = async function () {
   const url = IS_DEV
     ? `http://localhost:${GatewayPort}/listDeployments`
     : `https://lilong7676.cn/mini_faas_worker/gateway/listDeployments`;
+  console.log('getAllDeployments url', url);
 
   try {
     const response = await fetch(url);
@@ -58,6 +59,7 @@ const getAllDeployments = async function () {
     return allDeployments;
   } catch (error) {
     return new Promise(resolve => {
+      console.log('getAllDeployments error', error);
       setTimeout(() => {
         console.log('retry getAllDeployments');
         resolve(getAllDeployments());
