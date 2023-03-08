@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2023-01-16 23:09:20
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 11:05:09
+ * @Last Modified time: 2023-03-08 17:10:43
  */
 
 import { GatewayPort } from '@mini_faas_worker/common';
@@ -21,11 +21,11 @@ export default function Devtools(props: IProps) {
 
   const host = IS_DEV
     ? `http://localhost:${GatewayPort}`
-    : `window.location.origin/mini_faas_worker/gateway`;
+    : `${window.location.origin}/mini_faas_worker/gateway`;
 
   const wsUrl = IS_DEV
     ? `ws=localhost:${GatewayPort}`
-    : 'wss=lilong7676.cn/mini_faas_worker/gateway/ws';
+    : `wss=${window.location.host}/mini_faas_worker/gateway/ws`;
 
   const devtoolsPath = `/front_end/devtools_app.html?v8only=true&${wsUrl}/debugger/${debuggerSessionId}`;
 
