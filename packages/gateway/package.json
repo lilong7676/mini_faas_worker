@@ -8,7 +8,7 @@
   ],
   "scripts": {
     "dev": "pnpm prisma:generate && pnpm prisma:db:push && tsx watch src/index.ts",
-    "build:prod": "rimraf ./dist && pnpm prisma:generate && tsc --build --force --verbose",
+    "build:prod": "rimraf ./dist && dotenv -e .env.production -- pnpm prisma:generate && tsc --build --force --verbose",
     "start": "pnpm build:prod && cross-env NODE_ENV=production node --experimental-specifier-resolution=node ./dist",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit",
@@ -31,6 +31,7 @@
     "@mini_faas_worker/common": "workspace:^",
     "@mini_faas_worker/runtime": "workspace:^",
     "@mini_faas_worker/serverless": "workspace:^",
+    "dotenv-cli": "^7.0.0",
     "fastify": "^4.9.2",
     "ioredis": "^5.2.3",
     "node-fetch": "^3.2.6",

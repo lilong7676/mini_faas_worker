@@ -116,6 +116,7 @@ importers:
       '@types/node': ^18.7.1
       '@types/ws': ^8.5.3
       devtools-protocol: ^0.0.1092731
+      dotenv-cli: ^7.0.0
       fastify: ^4.9.2
       ioredis: ^5.2.3
       node-fetch: ^3.2.6
@@ -130,6 +131,7 @@ importers:
       '@mini_faas_worker/common': link:../common
       '@mini_faas_worker/runtime': link:../runtime
       '@mini_faas_worker/serverless': link:../serverless
+      dotenv-cli: 7.0.0
       fastify: 4.9.2
       ioredis: 5.2.3
       node-fetch: 3.2.10
@@ -3756,6 +3758,26 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       is-obj: 2.0.0
+    dev: false
+
+  /dotenv-cli/7.0.0:
+    resolution: {integrity: sha512-XfMzVdpdDTRnlcgvFLg3lSyiLXqFxS4tH7RbK5IxkC4XIUuxPyrGoDufkfLjy/dA28EILzEu+mros6h8aQmyGg==}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
+      dotenv: 16.0.3
+      dotenv-expand: 10.0.0
+      minimist: 1.2.6
+    dev: false
+
+  /dotenv-expand/10.0.0:
+    resolution: {integrity: sha512-GopVGCpVS1UKH75VKHGuQFqS1Gusej0z4FyQkPdwjil2gNIv+LNsqBlboOzpJFZKVT95GkCyWJbBSdFEFUWI2A==}
+    engines: {node: '>=12'}
+    dev: false
+
+  /dotenv/16.0.3:
+    resolution: {integrity: sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==}
+    engines: {node: '>=12'}
     dev: false
 
   /dotenv/8.6.0:
