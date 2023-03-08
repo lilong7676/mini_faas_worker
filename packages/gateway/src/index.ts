@@ -6,11 +6,7 @@ import multipart from '@fastify/multipart';
 import ws from '@fastify/websocket';
 import FastifyStatic from '@fastify/static';
 
-import {
-  GatewayPort,
-  ServerHost,
-  getRedisConfig,
-} from '@mini_faas_worker/common';
+import { GatewayPort, getRedisConfig } from '@mini_faas_worker/common';
 
 import { prisma } from './prisma';
 
@@ -46,7 +42,7 @@ fastify.register(FastifyStatic, {
 // Run the server!
 const start = async () => {
   try {
-    await fastify.listen({ port: GatewayPort, host: ServerHost });
+    await fastify.listen({ port: GatewayPort });
   } catch (err) {
     fastify.log.error(err);
     await prisma.$disconnect();

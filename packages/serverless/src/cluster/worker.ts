@@ -3,11 +3,11 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:47
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 11:48:18
+ * @Last Modified time: 2023-03-02 11:29:35
  */
 
 import { Deployment } from '@mini_faas_worker/types';
-import { ServerlessPort, ServerHost } from '@mini_faas_worker/common';
+import { ServerlessPort } from '@mini_faas_worker/common';
 import process from 'node:process';
 import startServer from '../server';
 import { fetchAndSaveOSSFile } from '../utils/oss';
@@ -56,5 +56,5 @@ export default async function worker() {
   });
 
   // 启动函数路由服务
-  startServer(serverPort, ServerHost);
+  startServer(serverPort);
 }
