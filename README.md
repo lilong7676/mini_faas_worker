@@ -2,13 +2,15 @@
  * @Author: Longlong Li lilong7676@outlook.com
  * @Date: 2022-11-07 10:05:06
  * @LastEditors: Please set LastEditors
- * @LastEditTime: 2023-03-03 11:24:32
+ * @LastEditTime: 2023-03-10 13:45:42
  * @FilePath: /mini_faas_worker/README.md
  * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
 -->
 Try implement a FaaS Worker based on V8 Isolate.
 
 *Refer to the [Lagon](https://github.com/lagonapp/lagon) implementation and thank them for their efforts.*
+
+## Online preview URL: https://lilong7676.cn/mini_faas_worker
 
 ## ⚠️请使用nodejs 16版本及以上运行此 demo
 
