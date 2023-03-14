@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:47
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-02 11:29:35
+ * @Last Modified time: 2023-03-14 11:49:23
  */
 
 import { Deployment } from '@mini_faas_worker/types';
@@ -16,6 +16,8 @@ import { deploymentCache } from '../utils/deployments';
 const serverPort = ServerlessPort;
 
 function handleDeployments(deployments: Deployment[]) {
+  console.log('handleDeployments', deployments);
+
   // 拉取所有部署的函数信息到本地
   Promise.all(
     deployments.map(deployment => {
@@ -27,9 +29,13 @@ function handleDeployments(deployments: Deployment[]) {
       // 下载函数文件到本地
       return fetchAndSaveOSSFile(id);
     })
-  ).then(() => {
-    console.log('setup all deployments done!');
-  });
+  )
+    .then(() => {
+      console.log('setup all deployments done!');
+    })
+    .catch(e => {
+      console.error('handleDeployments error', e);
+    });
 }
 
 export default async function worker() {
