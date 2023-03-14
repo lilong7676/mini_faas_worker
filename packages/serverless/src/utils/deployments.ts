@@ -13,8 +13,10 @@ export const getDeploymentFromRequest = (request: FastifyRequest) => {
   const { host } = request.headers; // localhost:port
   const fullUrl = new URL(`${protocol}://${host}${url}`); // http://localhost:port/path?query=*
   const deploymentHost = fullUrl.pathname;
+  const pathArr = deploymentHost.split('/');
+  const deploymentKey = pathArr[pathArr.length - 1]; // /trigger/xxx => xxx
 
-  return deploymentCache.get(deploymentHost);
+  return deploymentCache.get(deploymentKey);
 };
 
 export const getDeploymentCode = async (deploymentId: string) => {

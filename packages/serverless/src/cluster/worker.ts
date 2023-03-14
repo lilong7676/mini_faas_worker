@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:47
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-14 11:49:23
+ * @Last Modified time: 2023-03-14 14:12:40
  */
 
 import { Deployment } from '@mini_faas_worker/types';
@@ -16,15 +16,13 @@ import { deploymentCache } from '../utils/deployments';
 const serverPort = ServerlessPort;
 
 function handleDeployments(deployments: Deployment[]) {
-  console.log('handleDeployments', deployments);
-
   // 拉取所有部署的函数信息到本地
   Promise.all(
     deployments.map(deployment => {
       const { id } = deployment;
-      const deploymentHost = `/trigger/${id}`;
+      const deploymentKey = id;
       // 更新 deploymentCache
-      deploymentCache.set(deploymentHost, deployment);
+      deploymentCache.set(deploymentKey, deployment);
 
       // 下载函数文件到本地
       return fetchAndSaveOSSFile(id);
