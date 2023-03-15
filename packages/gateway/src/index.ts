@@ -40,7 +40,7 @@ fastify.register(startDebuggerService, {
  */
 fastify.register(FastifyStatic, {
   root: path.join(process.cwd(), '../../public/front_end'),
-  prefix: IS_DEV ? '' : '/mini_faas_worker/gateway/front_end',
+  prefix: IS_DEV ? '/front_end' : '/mini_faas_worker/gateway/front_end',
 });
 
 // Run the server!
