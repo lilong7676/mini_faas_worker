@@ -14,12 +14,7 @@ import { startDebuggerService } from './debuggerService';
 
 import deploymentRoutes from './deployment.route';
 
-import { fileURLToPath } from 'url';
-
 const IS_DEV = process.env.NODE_ENV === 'development';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
 const redisConfig = getRedisConfig();
 const redis = new Redis(redisConfig.port, redisConfig.host);
@@ -44,7 +39,7 @@ fastify.register(startDebuggerService, {
  * serve devtools front_end 静态文件
  */
 fastify.register(FastifyStatic, {
-  root: path.join(__dirname, '../../../public/front_end'),
+  root: path.join(process.cwd(), '../../public/front_end'),
   prefix: `${IS_DEV ? '' : '/mini_faas_worker'}/front_end`,
 });
 
