@@ -27,7 +27,7 @@ async function getFunctionDetail(funcId: string) {
 }
 
 async function getDebuggerSessionId(deploymentId: string) {
-  return getData('/getDebuggerSession', { deploymentId });
+  return getData('/ws/getDebuggerSession', { deploymentId });
 }
 
 async function saveAndDeployFunction(funcId: string, code: string) {
