@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { NextPage } from 'next';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { Row, Text, Button, Loading } from '@nextui-org/react';
 import { notification } from 'antd';
 import { useRequest } from 'ahooks';
@@ -10,10 +11,26 @@ import { Container, Section, Bar } from 'react-simple-resizer';
 import Layout from 'components/layout';
 import { Tabs } from 'components/tabs';
 import Editor, { editor } from 'components/monaco-editor';
-import HttpTriggerRunner from 'components/workers/detail/playground/HttpTriggerRunner';
-import Preview from 'components/workers/detail/playground/Preview';
-import Devtools from 'components/devtools';
+
 import { getData, postFormData } from 'libs/fetchData';
+
+const HttpTriggerRunner = dynamic(
+  () => import('components/workers/detail/playground/HttpTriggerRunner'),
+  {
+    ssr: false,
+  }
+);
+
+const Preview = dynamic(
+  () => import('components/workers/detail/playground/Preview'),
+  {
+    ssr: false,
+  }
+);
+
+const Devtools = dynamic(() => import('components/devtools'), {
+  ssr: false,
+});
 
 import S from './index.module.scss';
 

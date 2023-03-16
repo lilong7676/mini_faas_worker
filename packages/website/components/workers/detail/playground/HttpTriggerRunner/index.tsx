@@ -30,7 +30,7 @@ export default function HttpTriggerRunner({
   const { id: deploymentId } = deployment || {};
   const defaultTriggerUrl = IS_DEV
     ? `http://localhost:${ServerlessPort}/trigger/${deploymentId}`
-    : `${window.location.origin}/mini_faas_worker/serverless/trigger/${deploymentId}`; // https://lilong7676.cn/mini_faas_worker/serverless/trigger/${deploymentId}
+    : `${window.location.origin}/mini_faas_worker/serverless/trigger/${deploymentId}`;
 
   const triggerUrlInputRef = useRef(defaultTriggerUrl);
 
