@@ -22,35 +22,6 @@ async function createIsolate(
   };
 }
 
-async function getHandler({
-  isolate,
-  context,
-  code,
-}: {
-  isolate: ivm.Isolate;
-  context: ivm.Context;
-  code: string;
-}) {
-  const module = await isolate.compileModule(code, {
-    filename: 'function-isolate.js',
-  });
-
-  await module.instantiate(context, () => {
-    throw new Error(
-      `Can't import module, you must bundle all your code in a single file.`
-    );
-  });
-
-  await module.evaluate();
-
-  return {
-    handler: await module.namespace.get('handler', { reference: true }),
-    masterHandler: await module.namespace.get('masterHandler', {
-      reference: true,
-    }),
-  };
-}
-
 export async function getIsolate(
   deployment: Deployment | undefined,
   code: string,
@@ -60,7 +31,7 @@ export async function getIsolate(
   const newCode = `${code}
     async function masterHandler(request) {
 
-      const response = await handler(request);
+      let response = await handler(request);
 
       // 如果返回的是 ReadableStream, 比如 fetch 返回的就是 ReadableStream
       // if (response.body instanceof ReadableStream) {
@@ -68,6 +39,10 @@ export async function getIsolate(
       // } else {
       //   response.isReadableStream = 0;
       // }
+
+      if (!(response instanceof Response)) {
+        response = new Response(response);
+      }
 
       return response;
     }
@@ -101,5 +76,34 @@ export async function getIsolate(
       isolate,
       response,
     };
+  };
+}
+
+async function getHandler({
+  isolate,
+  context,
+  code,
+}: {
+  isolate: ivm.Isolate;
+  context: ivm.Context;
+  code: string;
+}) {
+  const module = await isolate.compileModule(code, {
+    filename: 'function-isolate.js',
+  });
+
+  await module.instantiate(context, () => {
+    throw new Error(
+      `Can't import module, you must bundle all your code in a single file.`
+    );
+  });
+
+  await module.evaluate();
+
+  return {
+    handler: await module.namespace.get('handler', { reference: true }),
+    masterHandler: await module.namespace.get('masterHandler', {
+      reference: true,
+    }),
   };
 }

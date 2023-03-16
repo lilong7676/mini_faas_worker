@@ -8,9 +8,9 @@ export interface ResponseInit {
 export class Response {
   body: string | Uint8Array;
   headers: Record<string, string>;
-  ok: boolean;
-  status: number;
-  statusText: string;
+  ok = true;
+  status = 200;
+  statusText = 'OK';
   url: string;
 
   constructor(body: string | Uint8Array, options?: ResponseInit) {
@@ -39,7 +39,18 @@ export class Response {
 
   async json<T>(): Promise<T> {
     if (this.body instanceof Uint8Array) {
-      throw new Error('Cannot read text from Uint8Array');
+      /**
+       * Converting between strings and ArrayBuffers
+       * https://stackoverflow.com/a/72105571/11825450
+       */
+      const bodyStr = String.fromCharCode(...this.body);
+      try {
+        const json = JSON.parse(JSON.stringify(bodyStr));
+
+        return json;
+      } catch (error) {
+        throw new Error('not a json!');
+      }
     }
 
     return JSON.parse(this.body);

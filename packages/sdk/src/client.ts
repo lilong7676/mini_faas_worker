@@ -38,14 +38,12 @@ export async function invokeFunctionWithCode(
       },
     };
 
-    console.time('-----sdk----- runIsolate');
     const { response, isolate } = await runIsolate(handlerRequest);
 
     if (!response) {
       isolate.dispose();
       throw new Error('Function did not return a response');
     }
-    console.timeEnd('-----sdk----- runIsolate');
     console.log(
       '-----sdk----- runIsolate',
       'ioslate cpuTime',
@@ -65,7 +63,9 @@ export async function invokeFunctionWithCode(
     const heapStatistics = isolate.getHeapStatisticsSync();
     Object.entries(heapStatistics).forEach(([key, value]) => {
       console.log(
-        `-----sdk----- runIsolate ${key}: ${value}B (${value / 1024 / 1024}MB)`
+        `-----sdk----- runIsolate ${key}: ${value}B (${
+          (value as number) / 1024 / 1024
+        }MB)`
       );
     });
 
