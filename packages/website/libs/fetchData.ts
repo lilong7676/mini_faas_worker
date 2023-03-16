@@ -3,7 +3,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-26 22:02:15
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 11:05:23
+ * @Last Modified time: 2023-03-16 11:43:54
  */
 
 import { GatewayPort } from '@mini_faas_worker/common';
@@ -12,7 +12,7 @@ const IS_DEV = process.env.NODE_ENV !== 'production';
 
 const baseUrl = IS_DEV
   ? `http://localhost:${GatewayPort}`
-  : '/mini_faas_worker/gateway';
+  : 'https://lilong7676.cn/mini_faas_worker/gateway';
 
 export async function postData(url = '', data: Record<string, unknown> = {}) {
   // Default options are marked with *
