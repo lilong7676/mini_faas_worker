@@ -4,7 +4,7 @@
  * @Author: lilonglong
  * @Date: 2022-10-25 22:54:40
  * @Last Modified by: lilonglong
- * @Last Modified time: 2023-03-08 13:03:08
+ * @Last Modified time: 2023-03-16 11:04:08
  */
 
 import cluster from 'node:cluster';
@@ -74,7 +74,11 @@ const getAllDeployments = async function () {
 export default async function master() {
   const allDeployments = await getAllDeployments();
 
-  const workersNum = IS_DEV ? 1 : os.cpus().length;
+  /**
+   * 这里有问题待解决，如果是多核的话，会导致多个 worker 线程同时监听同一个redis广播，导致 CDP 消息重复发送
+   */
+  // const workersNum = IS_DEV ? 1 : os.cpus().length;
+  const workersNum = 1;
 
   for (let i = 0; i < workersNum; i++) {
     const worker = cluster.fork();

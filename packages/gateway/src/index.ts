@@ -32,7 +32,7 @@ fastify.register(deploymentRoutes, {
   prefix: IS_DEV ? undefined : '/mini_faas_worker/gateway',
 });
 fastify.register(startDebuggerService, {
-  prefix: IS_DEV ? undefined : '/mini_faas_worker/gateway/ws',
+  prefix: IS_DEV ? '/ws' : '/mini_faas_worker/gateway/ws',
 });
 
 /**
