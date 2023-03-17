@@ -9,11 +9,10 @@
     "dist"
   ],
   "scripts": {
-    "build:watch": "rimraf ./dist && pnpm build:runtime && tsup src/index.ts --format=esm --dts --watch",
-    "build": "rimraf ./dist && pnpm build:runtime && tsup src/index.ts --format=esm --dts",
-    "build:runtime": "for file in src/runtime/*; do pnpm esbuild $file --outdir=dist/runtime --bundle --format=esm && pnpm tsc $file --target es2015 --moduleResolution node --declaration --emitDeclarationOnly --outDir dist/runtime; done",
     "lint": "eslint --cache --ignore-pattern dist .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "build:watch": "tsx build.runtime.ts watch",
+    "build": "tsx build.runtime.ts"
   },
   "keywords": [
     "v8",

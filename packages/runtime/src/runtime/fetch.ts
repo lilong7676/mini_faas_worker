@@ -3,12 +3,12 @@
  * @Author: lilonglong
  * @Date: 2022-10-28 22:32:42
  * @Last Modified by: lilonglong
- * @Last Modified time: 2022-11-01 14:31:03
+ * @Last Modified time: 2023-03-17 12:03:35
  */
 import { RequestInit } from '../bindings/fetch/Request';
 import { Response } from '../bindings/fetch/Response';
 
-export async function fetch(resource: string, init: RequestInit) {
+async function fetch(resource: string, init: RequestInit) {
   // @ts-expect-error $0 is not defined
   const result = await $0.apply(undefined, [resource, init], {
     result: { promise: true, copy: true },

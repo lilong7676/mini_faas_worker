@@ -6,6 +6,7 @@
     "baseUrl": "./",
     "outDir": "./dist",
     "rootDir": "src",
+    "isolatedModules": true, /* Ensure that each file can be safely transpiled without relying on other imports. */
   },
   "display": "@mini_faas_worker/runtime"
 }
