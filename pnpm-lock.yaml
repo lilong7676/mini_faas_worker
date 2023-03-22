@@ -79,6 +79,7 @@ importers:
       inquirer: ^9.0.0
       node-fetch: ^3.2.6
       open: ^8.4.0
+      tsup: ^6.0.1
       update-notifier: ^6.0.1
     dependencies:
       '@mini_faas_worker/common': link:../common
@@ -95,6 +96,7 @@ importers:
     devDependencies:
       '@types/inquirer': 8.2.3
       '@types/update-notifier': 5.1.0
+      tsup: 6.2.3
 
   packages/common:
     specifiers:
