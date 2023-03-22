@@ -9,8 +9,9 @@
     "dist"
   ],
   "scripts": {
-    "build:watch": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
-    "build": "rimraf ./dist && tsup src/index.ts --format=esm --dts --define.process.env.NODE_ENV \\\"production\\\"",
+    "postinstall": "pnpm build",
+    "dev": "tsx build.ts watch",
+    "build": "tsx build.ts",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc --noEmit"
   },
@@ -28,6 +29,8 @@
     "chalk": "^5.0.1"
   },
   "devDependencies": {
-    "@mini_faas_worker/types": "workspace:^"
+    "@mini_faas_worker/types": "workspace:^",
+    "tsup": "^6.0.1",
+    "tsx": "^3.11.0"
   }
 }

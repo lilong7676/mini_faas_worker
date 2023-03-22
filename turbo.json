@@ -18,11 +18,6 @@
       "outputs": []
     },
     "dev": {
-      "dependsOn": [
-        "@mini_faas_worker/common#build",
-        "@mini_faas_worker/runtime#build",
-        "@mini_faas_worker/sdk#build"
-      ],
       "cache": false,
       "persistent": true
     },

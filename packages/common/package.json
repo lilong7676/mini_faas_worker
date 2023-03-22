@@ -6,8 +6,9 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build:watch": "rimraf ./dist && tsup src/index.ts --format=esm --dts --watch",
-    "build": "rimraf ./dist && tsup src/index.ts --format=esm --dts",
+    "postinstall": "pnpm build",
+    "dev": "tsx build.ts watch",
+    "build": "tsx build.ts",
     "lint": "eslint --cache --ignore-pattern dist .",
     "typecheck": "tsc"
   },
@@ -16,5 +17,9 @@
   "dependencies": {
     "mrmime": "^1.0.1",
     "@mini_faas_worker/types": "workspace:^"
+  },
+  "devDependencies": {
+    "tsup": "^6.0.1",
+    "tsx": "^3.11.0"
   }
 }

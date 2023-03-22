@@ -9,10 +9,11 @@
     "dist"
   ],
   "scripts": {
+    "postinstall": "pnpm build",
+    "dev": "tsx build.ts watch",
+    "build": "tsx build.ts",
     "lint": "eslint --cache --ignore-pattern dist .",
-    "typecheck": "tsc --noEmit",
-    "build:watch": "tsx build.runtime.ts watch",
-    "build": "tsx build.runtime.ts"
+    "typecheck": "tsc --noEmit"
   },
   "keywords": [
     "v8",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/node": "^17.0.35",
     "@mini_faas_worker/types": "workspace:^",
-    "tsup": "^6.0.1"
+    "tsup": "^6.0.1",
+    "tsx": "^3.11.0"
   }
 }
